@@ -1,26 +1,108 @@
 @import "tailwindcss";
 
+/* Фирменная палитра СЕАЛ ПРОЕКТ (брендбук) */
+@theme inline {
+  --color-navy: #1f2a44;
+  --color-cognac: #c58b68;
+  --color-steel: #34657f;
+  --color-mist: #bbbcbc;
+  --color-ink: #131d28;
+  --color-paper: #f6f5f2;
+  --color-sand: #efe8e1;
+  --font-sans: var(--font-montserrat), "Montserrat", system-ui, sans-serif;
+}
+
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1f2a44;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-montserrat), "Montserrat", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: #c58b68;
+  color: #fff;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+/* Фирменные паттерны: точечный узор, архитектурная сетка, диагональные линии (прозрачность 5–25%) */
+.pattern-dots {
+  background-image: radial-gradient(rgba(187, 188, 188, 0.45) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+.pattern-grid {
+  background-image:
+    linear-gradient(rgba(52, 101, 127, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(52, 101, 127, 0.09) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.pattern-grid-light {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.pattern-diagonal {
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(197, 139, 104, 0.14) 0 1px,
+    transparent 1px 14px
+  );
+}
+.gradient-brand {
+  background: linear-gradient(135deg, #1f2a44 0%, #34657f 100%);
+}
+
+input[type="range"].range-brand {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #c58b68 var(--p, 50%), rgba(31, 42, 68, 0.12) var(--p, 50%));
+  outline: none;
+}
+input[type="range"].range-brand::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: #fff;
+  border: 6px solid #c58b68;
+  box-shadow: 0 4px 14px rgba(197, 139, 104, 0.45);
+  cursor: grab;
+}
+input[type="range"].range-brand::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: #fff;
+  border: 6px solid #c58b68;
+  cursor: grab;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
