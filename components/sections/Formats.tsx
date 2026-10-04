@@ -40,7 +40,7 @@ const FORMATS = [
 export default function Formats() {
   const { open } = useLead();
   return (
-    <section id="formats" className="w-full px-5 md:px-8 py-24 md:py-32 bg-white relative overflow-hidden">
+    <section id="formats" className="w-full px-5 md:px-8 pt-24 md:pt-32 pb-5 bg-white relative overflow-hidden">
       <div className="absolute -top-64 -right-64 w-[640px] h-[640px] glow-cognac pointer-events-none" />
       <div className="max-w-6xl mx-auto relative">
         <SectionHeader

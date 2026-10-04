@@ -4,6 +4,7 @@ import { LeadProvider } from "@/components/lead/LeadModal";
 import Hero from "@/components/sections/Hero";
 import Fears from "@/components/sections/Fears";
 import Formats from "@/components/sections/Formats";
+import Commercial from "@/components/sections/Commercial";
 import Marquee from "@/components/sections/Marquee";
 import Control from "@/components/sections/Control";
 import Excursion from "@/components/sections/Excursion";
@@ -26,6 +27,7 @@ export default function Home() {
         <Cases />
         <Fears />
         <Formats />
+        <Commercial />
         <Marquee />
         <Control />
         <Excursion />

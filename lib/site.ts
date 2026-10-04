@@ -48,7 +48,7 @@ export const SITE = {
   leadEndpoint: process.env.NEXT_PUBLIC_LEAD_ENDPOINT || "",
 };
 
-export type OfferId = "calc" | "measure" | "sink" | "design-gift" | "early5" | "tour" | "design" | "consult";
+export type OfferId = "calc" | "measure" | "sink" | "design-gift" | "early5" | "tour" | "design" | "consult" | "commercial";
 
 export const OFFERS: Record<OfferId, { label: string; cta: string; result: string }> = {
   calc: {
@@ -85,6 +85,11 @@ export const OFFERS: Record<OfferId, { label: string; cta: string; result: strin
     label: "Дизайн-проект с реализацией",
     cta: "Обсудить дизайн-проект",
     result: "Консультация по дизайн-проекту: подберём состав услуги и подготовим расчёт реализации.",
+  },
+  commercial: {
+    label: "Расчёт ремонта коммерческого помещения",
+    cta: "Рассчитать коммерческое помещение",
+    result: "Стоимость коммерческого помещения рассчитываем индивидуально. Менеджер уточнит задачу и согласует замер.",
   },
   consult: {
     label: "Консультация",
