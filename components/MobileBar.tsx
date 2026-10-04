@@ -10,7 +10,15 @@ export default function MobileBar() {
   const [show, setShow] = useState(false);
   const { open } = useLead();
   useEffect(() => {
-    const f = () => setShow(window.scrollY > window.innerHeight * 0.8);
+    let t = false;
+    const f = () => {
+      if (t) return;
+      t = true;
+      requestAnimationFrame(() => {
+        setShow(window.scrollY > window.innerHeight * 0.8);
+        t = false;
+      });
+    };
     f();
     window.addEventListener("scroll", f, { passive: true });
     return () => window.removeEventListener("scroll", f);
@@ -22,7 +30,7 @@ export default function MobileBar() {
           initial={{ y: 100 }}
           animate={{ y: 0 }}
           exit={{ y: 100 }}
-          className="md:hidden fixed bottom-3 inset-x-3 z-40 flex gap-2 rounded-full bg-navy/95 backdrop-blur-xl p-1.5 shadow-2xl shadow-ink/40 border border-white/10"
+          className="md:hidden fixed bottom-3 inset-x-3 z-40 flex gap-2 rounded-full bg-navy p-1.5 shadow-2xl shadow-ink/40 border border-white/10"
         >
           <a href={SITE.phoneHref} aria-label="Позвонить" className="h-12 w-12 shrink-0 rounded-full bg-white/10 flex items-center justify-center text-white">
             <Phone className="h-5 w-5" />
@@ -41,7 +49,7 @@ export default function MobileBar() {
                 image: "/img/hero.jpg",
               })
             }
-            className="flex-1 rounded-full bg-cognac text-white text-[14px] font-semibold"
+            className="flex-1 rounded-full bg-cognac text-white text-[16px] font-semibold"
           >
             Рассчитать стоимость
           </button>

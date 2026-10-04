@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Menu, Phone, X } from "lucide-react";
 import Logo from "@/components/Logo";
 import { useLead } from "@/components/lead/LeadModal";
-import { SITE, asset } from "@/lib/site";
+import { OFFERS, OfferId, PROMO_IDS, SITE, asset, imgUrl } from "@/lib/site";
 
 const NAV = [
   { label: "Форматы", href: "#formats" },
@@ -26,24 +26,66 @@ export default function Hero() {
   const { open } = useLead();
   const [scrolled, setScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
+  const [promo, setPromo] = useState<OfferId | null>(null);
 
   useEffect(() => {
-    if (videoRef.current) videoRef.current.playbackRate = 0.7;
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    // Рекламная связка: ?offer=sink | design-gift | early5 — первый экран ведёт на форму этого оффера
+    const p = new URLSearchParams(window.location.search).get("offer") as OfferId | null;
+    if (p && PROMO_IDS.includes(p)) setPromo(p);
+
+    // Видео: лёгкая версия для телефонов, пауза вне экрана, без видео при экономии трафика
+    const v = videoRef.current;
+    const nav = navigator as Navigator & { connection?: { saveData?: boolean } };
+    let io: IntersectionObserver | undefined;
+    if (v && !nav.connection?.saveData && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      v.src = asset(window.innerWidth < 768 ? "/video/hero-mobile.mp4" : "/video/hero.mp4");
+      v.playbackRate = 0.7;
+      io = new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) v.play().catch(() => {});
+        else v.pause();
+      });
+      io.observe(v);
+    }
+
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 40);
+        ticking = false;
+      });
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      io?.disconnect();
+    };
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = menu ? "hidden" : "";
+  }, [menu]);
+
   const openCalc = () =>
-    open({
-      offer: "calc",
-      source: "Первый экран — Рассчитать стоимость",
-      title: "Рассчитаем стоимость ремонта",
-      subtitle: "Ответьте на 3 вопроса — подготовим предварительный расчёт и предложим время замера.",
-      cta: "Получить расчёт",
-      image: "/img/hero.jpg",
-    });
+    promo
+      ? open({
+          offer: promo,
+          source: `Первый экран — рекламная связка «${OFFERS[promo].label}»`,
+          title: OFFERS[promo].cta,
+          subtitle: OFFERS[promo].result,
+          cta: "Получить предложение",
+          image: "/img/hero.jpg",
+        })
+      : open({
+          offer: "calc",
+          source: "Первый экран — Рассчитать стоимость",
+          title: "Рассчитаем стоимость ремонта",
+          subtitle: "Ответьте на несколько вопросов — подготовим предварительный расчёт и предложим время замера.",
+          cta: "Получить расчёт",
+          image: "/img/hero.jpg",
+        });
   const openMeasure = () =>
     open({
       offer: "measure",
@@ -55,66 +97,57 @@ export default function Hero() {
     });
 
   return (
-    <section className="min-h-[100svh] md:min-h-[108vh] flex flex-col bg-ink relative w-full overflow-hidden">
-      {/* Видео-фон */}
+    <section className="min-h-[100svh] md:min-h-[105vh] flex flex-col bg-ink relative w-full overflow-hidden">
       <video
         ref={videoRef}
-        autoPlay
         muted
         loop
         playsInline
-        poster={asset("/img/hero.jpg")}
+        preload="none"
+        poster={imgUrl("/img/hero.jpg", 1600)}
         className="absolute inset-0 w-full h-full object-cover z-0"
-      >
-        <source src={asset("/video/hero.mp4")} type="video/mp4" />
-      </video>
+        aria-hidden
+      />
       <div className="absolute inset-0 z-[1] bg-gradient-to-b from-ink/70 via-ink/35 to-ink/85" />
-      <div className="absolute inset-0 z-[1] pattern-grid-light opacity-40" />
 
       {/* Навигация */}
-      <motion.nav
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="fixed top-0 inset-x-0 z-50 px-3 md:px-8 pt-3 md:pt-5"
-      >
+      <nav className="fixed top-0 inset-x-0 z-50 px-3 md:px-8 pt-3 md:pt-5">
         <div
           className={
-            "max-w-6xl mx-auto flex items-center justify-between p-[8px] md:p-[10px] rounded-full backdrop-blur-xl border transition-all duration-500 " +
-            (scrolled ? "bg-navy/85 border-white/10 shadow-2xl shadow-ink/30" : "bg-white/5 border-white/10")
+            "max-w-6xl mx-auto flex items-center justify-between py-2 pr-2 pl-5 md:py-2.5 md:pr-2.5 md:pl-6 rounded-full border transition-colors duration-300 " +
+            (scrolled ? "bg-navy/95 border-white/10 shadow-xl shadow-ink/30" : "bg-ink/20 border-white/10 md:backdrop-blur-md")
           }
         >
-          <a href="#top" className="flex-1 flex items-center pl-4 whitespace-nowrap">
-            <Logo color="#FFFFFF" size={0.95} />
+          <a href="#top" className="flex items-center shrink-0" aria-label="СЕАЛ ПРОЕКТ — наверх">
+            <Logo color="white" width={110} />
           </a>
-          <div className="hidden lg:flex items-center gap-5 xl:gap-7 whitespace-nowrap">
+          <div className="hidden lg:flex items-center gap-6 xl:gap-8 whitespace-nowrap">
             {NAV.map((item) => (
-              <a key={item.href} href={item.href} className="text-[14px] font-medium text-white/70 hover:text-white transition-colors relative group">
+              <a key={item.href} href={item.href} className="text-[15px] font-medium text-white/75 hover:text-white transition-colors relative group">
                 {item.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-cognac transition-all group-hover:w-full" />
               </a>
             ))}
           </div>
-          <div className="flex-1 flex items-center justify-end gap-2 whitespace-nowrap">
-            <a href={SITE.phoneHref} className="hidden xl:flex items-center gap-2 text-[14px] font-semibold text-white/85 hover:text-white px-3 py-2">
-              <Phone className="h-4 w-4 text-cognac" />
+          <div className="flex items-center gap-2 shrink-0">
+            <a
+              href={SITE.phoneHref}
+              className="hidden sm:flex items-center gap-2.5 rounded-full bg-white text-navy pl-2 pr-5 py-2 text-[15px] font-semibold hover:bg-cognac hover:text-white transition-colors whitespace-nowrap"
+            >
+              <span className="h-8 w-8 rounded-full bg-cognac text-white flex items-center justify-center">
+                <Phone className="h-4 w-4" />
+              </span>
               {SITE.phone}
             </a>
-            <button
-              onClick={openMeasure}
-              className="hidden sm:block rounded-full px-5 py-2.5 text-[14px] font-semibold bg-white text-navy hover:bg-cognac hover:text-white transition-all hover:scale-105 active:scale-95"
-            >
-              Записаться на замер
-            </button>
-            <a href={SITE.phoneHref} aria-label="Позвонить" className="sm:hidden h-10 w-10 rounded-full bg-cognac text-white flex items-center justify-center">
-              <Phone className="h-4 w-4" />
+            <a href={SITE.phoneHref} aria-label={`Позвонить ${SITE.phone}`} className="sm:hidden h-11 w-11 rounded-full bg-cognac text-white flex items-center justify-center">
+              <Phone className="h-5 w-5" />
             </a>
-            <button onClick={() => setMenu(true)} aria-label="Меню" className="lg:hidden h-10 w-10 rounded-full bg-white/10 text-white flex items-center justify-center">
+            <button onClick={() => setMenu(true)} aria-label="Открыть меню" className="lg:hidden h-11 w-11 rounded-full bg-white/10 text-white flex items-center justify-center">
               <Menu className="h-5 w-5" />
             </button>
           </div>
         </div>
-      </motion.nav>
+      </nav>
 
       {/* Мобильное меню */}
       <AnimatePresence>
@@ -123,30 +156,23 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] bg-ink/95 backdrop-blur-xl flex flex-col p-6"
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[60] bg-ink flex flex-col p-6"
           >
             <div className="flex items-center justify-between">
-              <Logo color="#FFFFFF" />
+              <Logo color="white" width={110} />
               <button onClick={() => setMenu(false)} aria-label="Закрыть меню" className="h-11 w-11 rounded-full bg-white/10 text-white flex items-center justify-center">
                 <X className="h-5 w-5" />
               </button>
             </div>
             <div className="flex-1 flex flex-col justify-center gap-6">
-              {NAV.map((item, i) => (
-                <motion.a
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMenu(false)}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.05 * i }}
-                  className="text-[32px] font-bold text-white"
-                >
+              {NAV.map((item) => (
+                <a key={item.href} href={item.href} onClick={() => setMenu(false)} className="t-section text-white">
                   {item.label}
-                </motion.a>
+                </a>
               ))}
             </div>
-            <a href={SITE.phoneHref} className="text-[20px] font-semibold text-white mb-4">{SITE.phone}</a>
+            <a href={SITE.phoneHref} className="t-h4 text-white mb-4">{SITE.phone}</a>
             <button
               onClick={() => {
                 setMenu(false);
@@ -160,41 +186,21 @@ export default function Hero() {
         )}
       </AnimatePresence>
 
-      <div id="top" className="relative flex-1 flex flex-col items-center justify-center text-center px-5 pt-[130px] md:pt-[160px] pb-12 z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 backdrop-blur-md px-4 py-2 text-[12px] md:text-[13px] font-medium text-white/90 mb-7"
-        >
-          <span className="h-2 w-2 rounded-full bg-cognac animate-pulse" />
-          Красноярск · дизайн и ремонт под ключ · с 2012 года
-        </motion.div>
-
+      <div id="top" className="relative flex-1 flex flex-col items-center justify-center text-center px-5 pt-[120px] md:pt-[150px] pb-10 z-10">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1, ease: "easeOut" }}
-          className="font-extrabold text-[38px] sm:text-5xl md:text-6xl lg:text-[72px] leading-[1.04] tracking-[-0.025em] text-white max-w-5xl mb-6"
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="t-h1 text-white max-w-3xl mb-6"
         >
-          Ремонт квартир под ключ
-          <br className="hidden sm:block" /> в Красноярске{" "}
-          <span className="relative inline-block whitespace-nowrap text-cognac">
-            от 20 000 ₽/м²
-            <motion.span
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.9, delay: 0.8, ease: "easeOut" }}
-              className="absolute left-0 right-0 -bottom-1 md:-bottom-2 h-[3px] md:h-[5px] bg-cognac/70 origin-left rounded-full"
-            />
-          </span>
+          Ремонт квартир под ключ в Красноярске <span className="text-cognac whitespace-nowrap">от 20 000 ₽/м²</span>
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-          className="text-[16px] md:text-[19px] text-white/85 max-w-[640px] leading-relaxed mb-9"
+          transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+          className="t-lead text-white/85 max-w-[640px] mb-9"
         >
           Разработаем дизайн-проект и сами реализуем его — или выполним ремонт по вашему проекту и без дизайн-проекта.
         </motion.p>
@@ -202,45 +208,38 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
+          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
           className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto"
         >
           <button
             onClick={openCalc}
-            className="group w-full sm:w-auto flex items-center justify-between gap-4 rounded-full bg-cognac text-white p-1.5 pl-7 text-[15px] md:text-base font-semibold shadow-2xl shadow-cognac/30 hover:scale-[1.03] active:scale-95 transition-transform"
+            className="group w-full sm:w-auto flex items-center justify-between gap-4 rounded-full bg-cognac text-white p-1.5 pl-7 text-[16px] font-semibold shadow-xl shadow-ink/30 hover:brightness-105 active:scale-[0.98] transition"
           >
-            Рассчитать стоимость ремонта
-            <span className="h-12 w-12 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-cognac transition-colors">
+            <span className="text-left">{promo ? OFFERS[promo].cta : "Рассчитать стоимость ремонта"}</span>
+            <span className="h-12 w-12 shrink-0 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-cognac transition-colors">
               <ArrowRight className="h-5 w-5" />
             </span>
           </button>
           <button
             onClick={openMeasure}
-            className="w-full sm:w-auto rounded-full px-8 py-[18px] text-[15px] md:text-base font-semibold bg-white/10 backdrop-blur-lg border border-white/25 text-white hover:bg-white/20 transition-all hover:scale-[1.03] active:scale-95"
+            className="w-full sm:w-auto rounded-full px-8 py-[18px] text-[16px] font-semibold bg-white/10 border border-white/30 text-white hover:bg-white/20 active:scale-[0.98] transition"
           >
             Записаться на замер
           </button>
         </motion.div>
-        <motion.span
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mt-4 text-[13px] text-white/65"
-        >
+        <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }} className="mt-4 text-[14px] text-white/70">
           Получите смету в течение 24 часов после замера
         </motion.span>
 
-        {/* Факты вместо логотипов */}
         <motion.div
-          variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.6 } } }}
-          initial="hidden"
-          animate="show"
-          className="mt-14 md:mt-20 w-full max-w-5xl grid grid-cols-2 md:grid-cols-4 rounded-[24px] border border-white/15 bg-white/[0.06] backdrop-blur-xl overflow-hidden"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.45 }}
+          className="mt-12 md:mt-20 w-full max-w-5xl grid grid-cols-2 md:grid-cols-4 rounded-[24px] border border-white/15 bg-ink/45 md:bg-white/[0.06] md:backdrop-blur-md overflow-hidden"
         >
           {FACTS.map((f, i) => (
-            <motion.div
+            <div
               key={f.l}
-              variants={{ hidden: { opacity: 0, y: 10 }, show: { opacity: 1, y: 0 } }}
               className={
                 "px-5 py-5 md:py-6 text-left border-white/10 " +
                 (i % 2 === 0 ? "border-r " : "md:border-r ") +
@@ -248,9 +247,9 @@ export default function Hero() {
                 (i === 3 ? "md:border-r-0" : "")
               }
             >
-              <div className="text-[26px] md:text-[34px] font-extrabold text-white leading-none">{f.v}</div>
-              <div className="mt-2 text-[12px] md:text-[13px] text-white/60">{f.l}</div>
-            </motion.div>
+              <div className="text-[26px] md:text-[32px] font-extrabold text-white leading-none">{f.v}</div>
+              <div className="mt-2 text-[12px] md:text-[14px] text-white/65 leading-snug">{f.l}</div>
+            </div>
           ))}
         </motion.div>
       </div>

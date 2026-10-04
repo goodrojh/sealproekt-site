@@ -1,13 +1,14 @@
 "use client";
 import React, { useRef, useState } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
-import { Calculator, CalendarClock, UserRoundCheck, Eye, HardHat, Images, RotateCw } from "lucide-react";
+import { Calculator, CalendarClock, UserRoundCheck, Eye, ClipboardCheck, Images, RotateCw } from "lucide-react";
 import { useLead } from "@/components/lead/LeadModal";
 
-const MANIFESTO = "Ремонт не должен становиться вашей второй работой. Мы берём на себя десятки исполнителей, закупки, график и контроль — вам остаются решения и готовый интерьер.";
+// Главная мысль из брифа
+const MANIFESTO = "Ремонт не должен становиться вашей второй работой. Координацию исполнителей, закупки, график и контроль берём на себя — вам остаются решения и готовый интерьер.";
 
 function Word({ children, progress, range }: { children: string; progress: MotionValue<number>; range: [number, number] }) {
-  const opacity = useTransform(progress, range, [0.15, 1]);
+  const opacity = useTransform(progress, range, [0.18, 1]);
   return (
     <motion.span style={{ opacity }} className="mr-[0.25em] inline-block">
       {children}
@@ -15,36 +16,37 @@ function Word({ children, progress, range }: { children: string; progress: Motio
   );
 }
 
+// Основные страхи клиента — из брифа
 const FEARS = [
   {
     icon: Calculator,
     fear: "«Смета вырастет в процессе»",
-    answer: "Смету готовим за 24 часа после замера, презентуем и объясняем каждую строку. Ориентир по точности — ±10%. Состав работ и бюджет фиксируем до начала этапов.",
+    answer: "Смету готовим в течение 24 часов после замера, презентуем и объясняем. Ориентир по точности — ±10%. Состав работ и бюджет фиксируем до начала соответствующих этапов.",
   },
   {
     icon: CalendarClock,
     fear: "«Сроки сорвутся»",
-    answer: "График проекта согласуем до старта и закрепляем в договоре. Оплата поэтапная и привязана к ходу работ — вы платите за сделанное.",
+    answer: "Объём, смета, сроки и обязательства фиксируются в договоре. Оплата поэтапная и привязана к ходу работ.",
   },
   {
     icon: UserRoundCheck,
     fear: "«Подрядчик пропадёт»",
-    answer: "У вас один ответственный — персональный проектный менеджер. Рабочий чат, регулярные отчёты и понятная фиксация этапов.",
+    answer: "Ваш главный контакт — персональный проектный менеджер. Рабочий чат, график проекта и регулярные отчёты.",
   },
   {
-    icon: HardHat,
-    fear: "«Придётся контролировать рабочих»",
-    answer: "Координацию бригад, закупки и приёмку этапов ведёт ПМ. Вам не нужно ездить на объект, чтобы знать, что происходит.",
+    icon: ClipboardCheck,
+    fear: "«Придётся постоянно контролировать рабочих»",
+    answer: "Ремонт идёт под управлением ПМ — единой точки ответственности. Вам не нужно самостоятельно координировать десятки исполнителей.",
   },
   {
     icon: Images,
     fear: "«Красиво только на визуализации»",
-    answer: "Дизайн-проект и реализацию делает одна команда. Показываем связку «визуализация → реализация» на наших объектах.",
+    answer: "Дизайн-проект и ремонт делает одна команда. Показываем связку «визуализация → реализация» на объектах, которые разработали и реализовали мы.",
   },
   {
     icon: Eye,
     fear: "«Результат не совпадёт с ожиданиями»",
-    answer: "До договора можно приехать на объект в работе или на готовый объект, увидеть качество вживую и поговорить с действующим ПМ.",
+    answer: "До договора можно приехать на объект в работе или на готовый объект, оценить качество вживую и обсудить решения с действующим ПМ.",
   },
 ];
 
@@ -58,35 +60,34 @@ function FearCard({ f, i }: { f: (typeof FEARS)[number]; i: number }) {
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
       onClick={() => setFlipped((v) => !v)}
-      onMouseEnter={() => setFlipped(true)}
-      onMouseLeave={() => setFlipped(false)}
-      className="relative h-[250px] text-left [perspective:1200px]"
+      onPointerEnter={(e) => e.pointerType === "mouse" && setFlipped(true)}
+      onPointerLeave={(e) => e.pointerType === "mouse" && setFlipped(false)}
+      className="relative h-[260px] text-left [perspective:1200px]"
+      aria-pressed={flipped}
       aria-label={f.fear}
     >
-      <motion.div
-        animate={{ rotateY: flipped ? 180 : 0 }}
-        transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
-        className="relative h-full w-full [transform-style:preserve-3d]"
+      <div
+        className="relative h-full w-full transition-transform duration-500 ease-out [transform-style:preserve-3d]"
+        style={{ transform: flipped ? "rotateY(180deg)" : "none" }}
       >
         <div className="absolute inset-0 rounded-[28px] bg-white border border-navy/10 p-7 flex flex-col justify-between [backface-visibility:hidden]">
           <div className="flex items-center justify-between">
             <div className="h-12 w-12 rounded-2xl bg-paper flex items-center justify-center">
               <f.icon className="h-6 w-6 text-navy" />
             </div>
-            <span className="text-[12px] font-semibold text-navy/35">0{i + 1}</span>
+            <span className="text-[14px] font-semibold text-mist">0{i + 1}</span>
           </div>
           <div>
-            <p className="text-[11px] uppercase tracking-[0.14em] font-semibold text-cognac mb-2">Опасение</p>
-            <h3 className="text-[22px] font-bold text-navy leading-tight">{f.fear}</h3>
-            <p className="mt-3 flex items-center gap-1.5 text-[12px] text-navy/45"><RotateCw className="h-3.5 w-3.5" /> Как это устроено у нас</p>
+            <h3 className="t-h3 text-navy">{f.fear}</h3>
+            <p className="mt-3 flex items-center gap-1.5 text-[14px] text-navy/50">
+              <RotateCw className="h-4 w-4" /> Как это устроено у нас
+            </p>
           </div>
         </div>
-        <div className="absolute inset-0 rounded-[28px] gradient-brand p-7 flex flex-col justify-between [backface-visibility:hidden] [transform:rotateY(180deg)] overflow-hidden">
-          <div className="absolute inset-0 pattern-grid-light" />
-          <p className="relative text-[11px] uppercase tracking-[0.14em] font-semibold text-cognac">Как у нас</p>
-          <p className="relative text-[15px] leading-relaxed text-white/90">{f.answer}</p>
+        <div className="absolute inset-0 rounded-[28px] gradient-brand p-7 flex items-end [backface-visibility:hidden] [transform:rotateY(180deg)] overflow-hidden">
+          <p className="text-[16px] leading-[1.6] text-white">{f.answer}</p>
         </div>
-      </motion.div>
+      </div>
     </motion.button>
   );
 }
@@ -100,9 +101,8 @@ export default function Fears() {
   return (
     <section className="relative bg-paper overflow-hidden">
       <div className="absolute inset-0 pattern-dots opacity-60 pointer-events-none" />
-      <div ref={ref} className="relative max-w-6xl mx-auto px-5 md:px-8 pt-24 md:pt-36 pb-16">
-        <p className="text-[12px] uppercase tracking-[0.18em] font-semibold text-cognac mb-6">Главная мысль</p>
-        <p className="text-[28px] sm:text-[38px] md:text-[52px] font-bold leading-[1.15] tracking-[-0.02em] text-navy">
+      <div ref={ref} className="relative max-w-5xl mx-auto px-5 md:px-8 pt-24 md:pt-32 pb-16">
+        <p className="t-section text-navy">
           {words.map((w, i) => (
             <Word key={i} progress={scrollYProgress} range={[i / words.length, Math.min(1, (i + 1.5) / words.length)]}>
               {w}
@@ -112,11 +112,9 @@ export default function Fears() {
       </div>
 
       <div className="relative max-w-6xl mx-auto px-5 md:px-8 pb-24 md:pb-32">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-          <h2 className="text-[30px] md:text-[44px] font-bold text-navy leading-[1.1] max-w-xl">
-            Чего обычно боятся перед ремонтом — и что мы с этим делаем
-          </h2>
-          <p className="text-[15px] text-navy/55 max-w-sm">Наведите на карточку или нажмите на неё, чтобы увидеть ответ.</p>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6 mb-10">
+          <h2 className="t-section text-navy max-w-xl">Чего обычно опасаются перед ремонтом — и как это устроено у нас</h2>
+          <p className="text-[16px] text-navy/60 max-w-sm">Нажмите на карточку, чтобы увидеть ответ.</p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
           {FEARS.map((f, i) => (
@@ -128,14 +126,14 @@ export default function Fears() {
             onClick={() =>
               open({
                 offer: "consult",
-                source: "Блок «Опасения» — Задать вопрос",
-                title: "Обсудим ваши опасения до старта",
+                source: "Блок «Опасения» — Обсудить с менеджером",
+                title: "Обсудим ваш ремонт до старта",
                 subtitle: "Проектный менеджер ответит на вопросы и расскажет, как будет устроен ваш ремонт.",
                 cta: "Получить консультацию",
                 image: "/img/tour.jpg",
               })
             }
-            className="rounded-full border border-navy/20 bg-white px-8 py-4 text-[15px] font-semibold text-navy hover:bg-navy hover:text-white transition-colors"
+            className="rounded-full border border-navy/20 bg-white px-8 py-4 text-[16px] font-semibold text-navy hover:bg-navy hover:text-white transition-colors"
           >
             Обсудить мой ремонт с менеджером
           </button>

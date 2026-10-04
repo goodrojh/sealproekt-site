@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Calculator, Route, FileSignature, ArrowRight } from "lucide-react";
 import { useLead } from "@/components/lead/LeadModal";
-import { asset } from "@/lib/site";
+import { img } from "@/lib/site";
 
 type Item = { q: string; a: string };
 
@@ -13,7 +13,7 @@ const DATA: Record<string, Item[]> = {
     { q: "Как быстро я получу смету?", a: "В течение 24 часов после замера. Мы не просто отправляем файл — презентуем смету и объясняем, из чего складывается каждая позиция." },
     { q: "Насколько точна смета? Не вырастет ли она?", a: "Ориентир по точности сметы — ±10%. Состав работ, решения и бюджет фиксируем до начала соответствующих этапов, поэтому изменения возможны только по согласованию с вами." },
     { q: "Сколько стоит дизайн-проект?", a: "1 900 / 2 700 / 3 500 ₽ за м² — в зависимости от состава услуги. Дизайн-проект разрабатываем с последующей реализацией нашей командой." },
-    { q: "Какие акции сейчас действуют?", a: "Раковина из керамогранита в подарок, дизайн-проект в подарок или скидка 5% за раннее планирование. Действует одно предложение на договор; сроки и условия подтверждает менеджер." },
+    { q: "Какие акции сейчас действуют?", a: "Раковина из керамогранита в подарок, дизайн-проект в подарок или скидка 5% за раннее планирование. Условия и реальные сроки действия подтверждает менеджер." },
   ],
   process: [
     { q: "Можно ли сделать ремонт без дизайн-проекта?", a: "Да. Состав работ, решения и бюджет фиксируем до начала соответствующих этапов — вы заранее знаете, что получите." },
@@ -25,8 +25,8 @@ const DATA: Record<string, Item[]> = {
   contract: [
     { q: "Что фиксируется в договоре?", a: "Объём работ, смета, сроки и обязательства сторон. Условия и сроки гарантии также закрепляются в договоре." },
     { q: "Как происходит оплата?", a: "Оплата поэтапная и привязана к ходу работ — вы платите за выполненные этапы." },
-    { q: "Как я узнаю, что работы идут по графику?", a: "График согласуем до старта. ПМ присылает отчёты по этапам в рабочий чат, а ключевые этапы фиксируются документально." },
-    { q: "Что происходит после сдачи объекта?", a: "Принимаем объект вместе с вами и сопровождаем в гарантийный период на условиях договора." },
+    { q: "Как я узнаю, что работы идут по графику?", a: "Договор и график согласуем до старта. Дальше — рабочий чат, регулярные отчёты, контроль графика и понятная фиксация этапов." },
+    { q: "Что происходит после сдачи объекта?", a: "После сдачи объекта — гарантийное сопровождение. Условия и сроки гарантии закрепляются в договоре." },
   ],
 };
 
@@ -46,8 +46,7 @@ export default function FAQ() {
       <div className="absolute inset-0 pattern-dots opacity-50 pointer-events-none" />
       <div className="relative max-w-[820px] mx-auto">
         <div className="text-center mb-10">
-          <p className="text-[12px] uppercase tracking-[0.18em] font-semibold text-cognac mb-4">Вопросы</p>
-          <h2 className="text-[34px] md:text-[48px] font-bold text-navy leading-tight tracking-[-0.02em]">Отвечаем честно и по делу</h2>
+          <h2 className="t-section text-navy">Вопросы и ответы</h2>
         </div>
 
         <div className="flex justify-start md:justify-center gap-2 border-b border-navy/10 mb-6 overflow-x-auto no-scrollbar">
@@ -59,7 +58,7 @@ export default function FAQ() {
                 setOpenIdx(0);
               }}
               className={
-                "inline-flex items-center gap-2 px-4 md:px-5 py-3 text-[14px] md:text-[15px] border-b-2 whitespace-nowrap transition-all " +
+                "inline-flex items-center gap-2 px-4 md:px-5 py-3 text-[16px] border-b-2 whitespace-nowrap transition-all " +
                 (tab === t.id ? "text-navy font-semibold border-cognac" : "text-navy/50 font-medium border-transparent hover:text-navy")
               }
             >
@@ -73,7 +72,7 @@ export default function FAQ() {
           {DATA[tab].map((item, i) => (
             <div key={tab + i} className="border-b border-navy/10 py-5">
               <button onClick={() => setOpenIdx(openIdx === i ? null : i)} className="w-full flex justify-between items-center gap-4 text-left">
-                <span className="text-[16px] md:text-[17px] font-semibold text-navy">{item.q}</span>
+                <span className="text-[16px] md:text-[18px] font-medium text-navy">{item.q}</span>
                 <motion.span animate={{ rotate: openIdx === i ? 45 : 0 }} className={"h-9 w-9 shrink-0 rounded-full flex items-center justify-center transition-colors " + (openIdx === i ? "bg-cognac text-white" : "bg-white text-navy")}>
                   <Plus className="h-5 w-5" />
                 </motion.span>
@@ -81,7 +80,7 @@ export default function FAQ() {
               <AnimatePresence initial={false}>
                 {openIdx === i && (
                   <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden">
-                    <p className="pt-3 pr-12 text-[15px] text-navy/65 leading-[1.7]">{item.a}</p>
+                    <p className="pt-3 pr-12 text-[16px] text-navy/70 leading-[1.6]">{item.a}</p>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -91,10 +90,10 @@ export default function FAQ() {
 
         <div className="mt-12 bg-white rounded-[24px] p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 border border-navy/10">
           <div className="flex items-center gap-4">
-            <img src={asset("/img/tour.jpg")} alt="" className="h-14 w-14 rounded-full object-cover object-[30%_30%] border-2 border-white shadow" />
+            <img {...img("/img/tour.jpg", { sizes: "56px" })} alt="" width={56} height={56} className="h-14 w-14 rounded-full object-cover object-[30%_30%] border-2 border-white shadow" />
             <div>
               <p className="font-semibold text-[16px] text-navy">Остались вопросы?</p>
-              <p className="text-[14px] text-navy/55">Проектный менеджер ответит лично</p>
+              <p className="text-[14px] text-navy/65">Проектный менеджер ответит лично</p>
             </div>
           </div>
           <button

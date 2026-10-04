@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ArrowUpRight, X } from "lucide-react";
 import { useLead } from "@/components/lead/LeadModal";
-import { asset } from "@/lib/site";
+import { img } from "@/lib/site";
 
 // ВРЕМЕННО: иллюстрации и шаблонные описания. Заменить реальными кейсами заказчика.
 const CASES = [
@@ -74,11 +74,12 @@ function CaseModal({ c, onClose }: { c: (typeof CASES)[number]; onClose: () => v
     ["Исходные данные", c.input],
     ["Что сделали", c.done],
     ["Особенности объекта", c.features],
+    ["Фотографии", `${c.gallery.length} фото в галерее`],
     ["Результат", c.result],
   ];
   return (
     <motion.div className="fixed inset-0 z-[90] flex items-center justify-center p-0 md:p-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-      <div className="absolute inset-0 bg-ink/80 backdrop-blur-md" onClick={onClose} />
+      <div className="absolute inset-0 bg-ink/85" onClick={onClose} />
       <motion.div
         initial={{ y: 40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -87,7 +88,7 @@ function CaseModal({ c, onClose }: { c: (typeof CASES)[number]; onClose: () => v
       >
         <div className="relative bg-ink aspect-[4/3] lg:aspect-auto lg:min-h-[640px]">
           <AnimatePresence mode="popLayout">
-            <motion.img key={i} src={asset(c.gallery[i])} alt={c.title} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 w-full h-full object-cover" />
+            <motion.img key={i} {...img(c.gallery[i], { eager: true, sizes: "(max-width: 1024px) 100vw, 60vw" })} alt={c.title} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 w-full h-full object-cover" />
           </AnimatePresence>
           {c.gallery.length > 1 && (
             <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
@@ -111,13 +112,13 @@ function CaseModal({ c, onClose }: { c: (typeof CASES)[number]; onClose: () => v
           <button onClick={onClose} aria-label="Закрыть" className="absolute right-4 top-4 h-11 w-11 rounded-full bg-white/90 md:bg-paper flex items-center justify-center text-navy z-10">
             <X className="h-5 w-5" />
           </button>
-          <p className="text-[12px] font-semibold text-cognac uppercase tracking-[0.12em]">{c.meta}</p>
-          <h3 className="mt-2 text-[28px] font-bold text-navy leading-tight pr-10">{c.title}</h3>
+          <p className="text-[14px] font-medium text-navy/60">{c.meta}</p>
+          <h3 className="mt-2 t-h2 text-navy pr-10">{c.title}</h3>
           <dl className="mt-6 flex flex-col gap-4">
             {rows.map(([k, v]) => (
-              <div key={k} className="grid grid-cols-[130px_1fr] gap-3 border-b border-navy/10 pb-4">
-                <dt className="text-[12px] font-semibold text-navy/45 uppercase tracking-wide">{k}</dt>
-                <dd className="text-[14px] text-navy/80 leading-relaxed">{v}</dd>
+              <div key={k} className="grid sm:grid-cols-[150px_1fr] gap-1 sm:gap-3 border-b border-navy/10 pb-4">
+                <dt className="text-[14px] font-semibold text-navy">{k}</dt>
+                <dd className="text-[16px] text-navy/75 leading-[1.6]">{v}</dd>
               </div>
             ))}
           </dl>
@@ -136,7 +137,7 @@ function CaseModal({ c, onClose }: { c: (typeof CASES)[number]; onClose: () => v
             className="mt-auto pt-6"
           >
             <span className="flex w-full items-center justify-between rounded-full bg-navy text-white p-1.5 pl-6 hover:bg-cognac transition-colors">
-              <span className="text-[15px] font-semibold">Хочу похожий ремонт</span>
+              <span className="text-[16px] font-semibold">Хочу похожий ремонт</span>
               <span className="h-11 w-11 rounded-full bg-cognac flex items-center justify-center">
                 <ArrowRight className="h-5 w-5" />
               </span>
@@ -159,8 +160,7 @@ export default function Cases() {
       <div className="max-w-6xl mx-auto px-5 md:px-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-10">
           <div>
-            <p className="text-[12px] uppercase tracking-[0.18em] font-semibold text-cognac mb-4">Объекты</p>
-            <h2 className="text-[34px] md:text-[48px] font-bold text-navy leading-[1.08] tracking-[-0.02em]">
+            <h2 className="t-section text-navy">
               Интерьеры, которые
               <br /> мы довели до ключей
             </h2>
@@ -189,17 +189,17 @@ export default function Cases() {
             className="group snap-start shrink-0 w-[85vw] sm:w-[520px] md:w-[600px] text-left"
           >
             <div className="relative h-[380px] md:h-[440px] rounded-[28px] overflow-hidden">
-              <img src={asset(c.cover)} alt={c.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" loading="lazy" />
+              <img {...img(c.cover, { sizes: "(max-width: 640px) 85vw, 600px" })} alt={c.title} className="absolute inset-0 w-full h-full object-cover md:group-hover:scale-105 transition-transform duration-1000" />
               <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
-              <span className="absolute top-5 right-5 h-12 w-12 rounded-full bg-white/90 backdrop-blur flex items-center justify-center text-navy group-hover:bg-cognac group-hover:text-white group-hover:rotate-45 transition-all">
+              <span className="absolute top-5 right-5 h-12 w-12 rounded-full bg-white flex items-center justify-center text-navy group-hover:bg-cognac group-hover:text-white group-hover:rotate-45 transition-all">
                 <ArrowUpRight className="h-5 w-5" />
               </span>
               <div className="absolute left-6 bottom-6 right-6">
-                <p className="text-[12px] font-semibold text-white/75">{c.meta}</p>
-                <h3 className="mt-1 text-[22px] md:text-[26px] font-bold text-white leading-tight">{c.title}</h3>
+                <p className="text-[14px] font-medium text-white/85">{c.meta}</p>
+                <h3 className="mt-1 t-h3 text-white">{c.title}</h3>
               </div>
             </div>
-            <p className="mt-4 text-[14px] text-navy/60 line-clamp-2">{c.task}</p>
+            <p className="mt-4 text-[16px] text-navy/65 line-clamp-2">{c.task}</p>
           </motion.button>
         ))}
       </div>

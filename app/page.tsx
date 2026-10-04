@@ -1,4 +1,5 @@
 "use client";
+import { MotionConfig } from "framer-motion";
 import { LeadProvider } from "@/components/lead/LeadModal";
 import Hero from "@/components/sections/Hero";
 import Fears from "@/components/sections/Fears";
@@ -18,6 +19,7 @@ import MobileBar from "@/components/MobileBar";
 
 export default function Home() {
   return (
+    <MotionConfig reducedMotion="user">
     <LeadProvider>
       <main className="min-h-screen overflow-x-clip">
         <Hero />
@@ -37,5 +39,6 @@ export default function Home() {
       </main>
       <MobileBar />
     </LeadProvider>
+    </MotionConfig>
   );
 }

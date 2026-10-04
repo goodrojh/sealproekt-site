@@ -1,36 +1,30 @@
 import React from "react";
+import { asset } from "@/lib/site";
 
-// Логотип «текст + символ» по брендбуку: СЕАЛ / ПРОЕКТ + контур дома.
+// Оригинальный логотип «текст + символ» из файлов заказчика (прозрачный PNG, пропорции не меняются).
+// variant: mark — без слогана (шапка), full — со слоганом «дизайн и ремонт под ключ».
 export default function Logo({
-  color = "#1F2A44",
-  tagline,
+  color = "navy",
+  variant = "mark",
+  width = 112,
   className = "",
-  size = 1,
 }: {
-  color?: string;
-  tagline?: string;
+  color?: "navy" | "white";
+  variant?: "mark" | "full";
+  width?: number;
   className?: string;
-  size?: number;
 }) {
-  const fs = 15 * size;
+  const ratio = variant === "mark" ? 355 / 888 : 425 / 888;
   return (
-    <span className={"inline-flex flex-col select-none " + className} aria-label="СЕАЛ ПРОЕКТ">
-      <span className="inline-flex items-stretch gap-[3px]">
-        <span className="flex flex-col font-extrabold uppercase leading-[0.92] tracking-[-0.01em]" style={{ color, fontSize: fs }}>
-          <span>СЕАЛ</span>
-          <span>ПРОЕКТ</span>
-        </span>
-        <svg viewBox="0 0 40 44" style={{ height: fs * 1.92, width: "auto", marginTop: -fs * 0.1 }} fill="none" aria-hidden>
-          <path d="M3 22 V16 L21 3 L38 16 V22" stroke={color} strokeWidth="4.2" strokeLinejoin="miter" />
-          <path d="M14 22 H34 V42 H8" stroke={color} strokeWidth="4.2" />
-          <path d="M14 22 V28" stroke={color} strokeWidth="4.2" />
-        </svg>
-      </span>
-      {tagline && (
-        <span className="mt-1 font-medium tracking-[0.02em]" style={{ color, fontSize: fs * 0.42, opacity: 0.8 }}>
-          {tagline}
-        </span>
-      )}
-    </span>
+    <img
+      src={asset(`/brand/logo-${variant}-${color}.png`)}
+      alt="СЕАЛ ПРОЕКТ"
+      width={width}
+      height={Math.round(width * ratio)}
+      decoding="async"
+      className={"block select-none " + className}
+      style={{ width, height: "auto" }}
+      draggable={false}
+    />
   );
 }

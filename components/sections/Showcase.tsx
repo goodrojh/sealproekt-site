@@ -2,7 +2,7 @@
 import React, { useCallback, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { MoveHorizontal } from "lucide-react";
-import { asset } from "@/lib/site";
+import { img } from "@/lib/site";
 
 function Compare({ left, right, leftLabel, rightLabel }: { left: string; right: string; leftLabel: string; rightLabel: string }) {
   const [pos, setPos] = useState(50);
@@ -28,12 +28,12 @@ function Compare({ left, right, leftLabel, rightLabel }: { left: string; right: 
       onPointerUp={() => (dragging.current = false)}
       onPointerCancel={() => (dragging.current = false)}
     >
-      <img src={asset(right)} alt={rightLabel} className="absolute inset-0 w-full h-full object-cover" draggable={false} />
+      <img {...img(right, { sizes: "(max-width: 1200px) 100vw, 1150px" })} alt={rightLabel} className="absolute inset-0 w-full h-full object-cover" draggable={false} />
       <div className="absolute inset-0 overflow-hidden" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
-        <img src={asset(left)} alt={leftLabel} className="absolute inset-0 w-full h-full object-cover" draggable={false} />
+        <img {...img(left, { sizes: "(max-width: 1200px) 100vw, 1150px" })} alt={leftLabel} className="absolute inset-0 w-full h-full object-cover" draggable={false} />
       </div>
-      <span className="absolute left-4 top-4 rounded-full bg-ink/70 backdrop-blur-md px-3 py-1.5 text-[12px] font-semibold text-white">{leftLabel}</span>
-      <span className="absolute right-4 top-4 rounded-full bg-cognac px-3 py-1.5 text-[12px] font-semibold text-white">{rightLabel}</span>
+      <span className="absolute left-4 top-4 rounded-full bg-ink/75 px-3 py-1.5 text-[14px] font-semibold text-white">{leftLabel}</span>
+      <span className="absolute right-4 top-4 rounded-full bg-cognac px-3 py-1.5 text-[14px] font-semibold text-white">{rightLabel}</span>
       <div className="absolute inset-y-0 w-[2px] bg-white shadow-[0_0_20px_rgba(0,0,0,0.4)]" style={{ left: `${pos}%` }}>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-14 w-14 rounded-full bg-white shadow-2xl flex items-center justify-center">
           <MoveHorizontal className="h-6 w-6 text-navy" />
@@ -60,7 +60,7 @@ const TABS = [
     right: "/img/hero.jpg",
     l: "Визуализация",
     r: "Реализация",
-    text: "Дизайн-проект и ремонт делает одна команда, поэтому интерьер на фото совпадает с тем, что вы утвердили на визуализации.",
+    text: "Там, где проект разработан и реализован нами, показываем связку «визуализация → реализация»: дизайн-проект и ремонт делает одна команда.",
   },
   {
     id: "ba",
@@ -69,7 +69,7 @@ const TABS = [
     right: "/img/after.jpg",
     l: "До",
     r: "После",
-    text: "Вторичное жильё: от старых стен и коммуникаций — к спокойному современному интерьеру. Все скрытые работы фиксируем в отчётах.",
+    text: "Вторичное жильё: от старых стен и коммуникаций — к спокойному современному интерьеру. Этапы работ фиксируем в отчётах.",
   },
 ];
 
@@ -81,8 +81,7 @@ export default function Showcase() {
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
-            <p className="text-[12px] uppercase tracking-[0.18em] font-semibold text-cognac mb-4">Проверьте сами</p>
-            <h2 className="text-[34px] md:text-[48px] font-bold text-navy leading-[1.08] tracking-[-0.02em] max-w-2xl">
+            <h2 className="t-section text-navy max-w-2xl">
               Красиво не только на визуализации
             </h2>
           </div>
@@ -91,7 +90,7 @@ export default function Showcase() {
               <button
                 key={x.id}
                 onClick={() => setTab(i)}
-                className={"relative rounded-full px-4 md:px-5 py-2.5 text-[13px] font-semibold transition-colors " + (tab === i ? "text-white" : "text-navy/60 hover:text-navy")}
+                className={"relative rounded-full px-4 md:px-5 py-2.5 text-[14px] font-semibold transition-colors " + (tab === i ? "text-white" : "text-navy/60 hover:text-navy")}
               >
                 {tab === i && <motion.span layoutId="showcase-pill" className="absolute inset-0 rounded-full bg-navy" />}
                 <span className="relative">{x.label}</span>
@@ -101,7 +100,7 @@ export default function Showcase() {
         </div>
         <motion.div key={t.id} initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
           <Compare left={t.left} right={t.right} leftLabel={t.l} rightLabel={t.r} />
-          <p className="mt-6 text-[15px] md:text-[17px] text-navy/65 max-w-2xl leading-relaxed">{t.text}</p>
+          <p className="mt-6 t-lead text-navy/70 max-w-2xl">{t.text}</p>
         </motion.div>
       </div>
     </section>

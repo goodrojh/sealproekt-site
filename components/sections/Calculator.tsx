@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowRight, Info } from "lucide-react";
 import { useLead } from "@/components/lead/LeadModal";
 import { SITE, fmt } from "@/lib/site";
@@ -13,21 +13,9 @@ const DESIGN = [
 ];
 const TYPES = ["Новостройка", "Вторичное жильё", "Дом"];
 
+// Без анимации на каждое значение: при перетаскивании ползунка это давало лишнюю нагрузку
 function Counter({ value }: { value: number }) {
-  return (
-    <AnimatePresence mode="popLayout">
-      <motion.span
-        key={value}
-        initial={{ y: 16, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: -16, opacity: 0 }}
-        transition={{ duration: 0.25 }}
-        className="inline-block"
-      >
-        {fmt(value)}
-      </motion.span>
-    </AnimatePresence>
-  );
+  return <span className="inline-block">{fmt(value)}</span>;
 }
 
 export default function Calculator() {
@@ -43,20 +31,19 @@ export default function Calculator() {
   return (
     <section id="calc" className="relative w-full px-5 md:px-8 py-24 md:py-32 gradient-brand overflow-hidden">
       <div className="absolute inset-0 pattern-grid-light" />
-      <div className="absolute -right-40 top-10 w-[600px] h-[600px] rounded-full bg-cognac/20 blur-[140px]" />
+      <div className="absolute -right-60 -top-20 w-[700px] h-[700px] glow-cognac pointer-events-none" />
       <div className="relative max-w-6xl mx-auto grid lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-16 items-center">
         <div>
-          <p className="text-[12px] uppercase tracking-[0.18em] font-semibold text-cognac mb-4">Калькулятор</p>
-          <h2 className="text-[34px] md:text-[48px] font-bold text-white leading-[1.08] tracking-[-0.02em]">
+          <h2 className="t-section text-white">
             Посчитайте ориентир
             <br /> за 30 секунд
           </h2>
-          <p className="mt-5 text-[16px] md:text-[18px] text-white/70 leading-relaxed max-w-md">
+          <p className="mt-5 t-lead text-white/80 max-w-md">
             Ремонт квартир под ключ — от 20 000 ₽/м². Дизайн-проект — 1 900 / 2 700 / 3 500 ₽/м² в зависимости от состава. Средний бюджет проекта — {SITE.avgBudget}.
           </p>
           <div className="mt-8 flex items-start gap-3 rounded-2xl border border-white/15 bg-white/5 p-4 max-w-md">
             <Info className="h-5 w-5 text-cognac shrink-0 mt-0.5" />
-            <p className="text-[13px] text-white/65 leading-relaxed">
+            <p className="text-[14px] text-white/75 leading-[1.5]">
               Это нижняя граница по базовой ставке. Точную стоимость покажет смета: готовим её в течение 24 часов после замера, точность — ±10%.
             </p>
           </div>
@@ -74,7 +61,7 @@ export default function Calculator() {
               <button
                 key={t}
                 onClick={() => setType(t)}
-                className={"rounded-full px-4 py-2 text-[13px] font-medium border transition-all " + (type === t ? "bg-navy text-white border-navy" : "border-navy/15 text-navy/70 hover:border-navy/40")}
+                className={"rounded-full px-4 py-2 text-[14px] font-medium border transition-all " + (type === t ? "bg-navy text-white border-navy" : "border-navy/15 text-navy/70 hover:border-navy/40")}
               >
                 {t}
               </button>
@@ -82,8 +69,8 @@ export default function Calculator() {
           </div>
 
           <div className="flex items-baseline justify-between mb-4">
-            <span className="text-[14px] font-semibold text-navy">Площадь квартиры</span>
-            <span className="text-[32px] font-extrabold text-navy leading-none">
+            <span className="text-[16px] font-semibold text-navy">Площадь квартиры</span>
+            <span className="text-[32px] font-bold text-navy leading-none">
               {area} <span className="text-[18px] font-semibold text-navy/50">м²</span>
             </span>
           </div>
@@ -97,18 +84,18 @@ export default function Calculator() {
             style={{ ["--p" as string]: ((area - 20) / 180) * 100 + "%" } as React.CSSProperties}
             aria-label="Площадь квартиры"
           />
-          <div className="flex justify-between text-[11px] text-navy/40 mt-2">
+          <div className="flex justify-between text-[12px] text-navy/50 mt-2">
             <span>20 м²</span>
             <span>200 м²</span>
           </div>
 
-          <p className="mt-8 mb-3 text-[14px] font-semibold text-navy">Дизайн-проект</p>
+          <p className="mt-8 mb-3 text-[16px] font-semibold text-navy">Дизайн-проект</p>
           <div className="grid grid-cols-2 gap-2">
             {DESIGN.map((d) => (
               <button
                 key={d.id}
                 onClick={() => setDesign(d.id)}
-                className={"rounded-2xl px-4 py-3 text-[13px] font-medium text-left border transition-all " + (design === d.id ? "border-cognac bg-cognac/10 text-navy" : "border-navy/10 text-navy/65 hover:border-navy/30")}
+                className={"rounded-2xl px-4 py-3 text-[14px] font-medium text-left border transition-all " + (design === d.id ? "border-cognac bg-cognac/10 text-navy" : "border-navy/10 text-navy/65 hover:border-navy/30")}
               >
                 {d.label}
               </button>
@@ -127,7 +114,7 @@ export default function Calculator() {
             <div className="h-px bg-navy/10 my-4" />
             <div className="flex items-end justify-between gap-4">
               <span className="text-[14px] font-semibold text-navy">Ориентир</span>
-              <span className="text-[30px] md:text-[38px] font-extrabold text-navy leading-none tabular-nums overflow-hidden">
+              <span className="text-[28px] md:text-[32px] font-bold text-navy leading-none tabular-nums overflow-hidden whitespace-nowrap">
                 от <Counter value={total} /> ₽
               </span>
             </div>
@@ -151,7 +138,7 @@ export default function Calculator() {
             }
             className="group mt-6 w-full flex items-center justify-between rounded-full bg-cognac text-white p-1.5 pl-7 hover:brightness-95 transition-all"
           >
-            <span className="text-[15px] font-semibold">Получить точную смету</span>
+            <span className="text-[16px] font-semibold">Получить точную смету</span>
             <span className="h-12 w-12 rounded-full bg-navy flex items-center justify-center group-hover:translate-x-0.5 transition-transform">
               <ArrowRight className="h-5 w-5" />
             </span>
