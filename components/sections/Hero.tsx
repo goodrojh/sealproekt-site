@@ -87,7 +87,7 @@ export default function Hero() {
           <a href="#top" className="flex-1 flex items-center pl-4 whitespace-nowrap">
             <Logo color="#FFFFFF" size={0.95} />
           </a>
-          <div className="hidden lg:flex items-center gap-7">
+          <div className="hidden lg:flex items-center gap-5 xl:gap-7 whitespace-nowrap">
             {NAV.map((item) => (
               <a key={item.href} href={item.href} className="text-[14px] font-medium text-white/70 hover:text-white transition-colors relative group">
                 {item.label}
@@ -96,7 +96,7 @@ export default function Hero() {
             ))}
           </div>
           <div className="flex-1 flex items-center justify-end gap-2 whitespace-nowrap">
-            <a href={SITE.phoneHref} className="hidden md:flex items-center gap-2 text-[14px] font-semibold text-white/85 hover:text-white px-3 py-2">
+            <a href={SITE.phoneHref} className="hidden xl:flex items-center gap-2 text-[14px] font-semibold text-white/85 hover:text-white px-3 py-2">
               <Phone className="h-4 w-4 text-cognac" />
               {SITE.phone}
             </a>
