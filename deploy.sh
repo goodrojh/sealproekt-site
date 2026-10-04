@@ -2,7 +2,7 @@
 # Сборка и публикация на GitHub Pages (ветка gh-pages).
 set -e
 REPO_NAME=$(basename -s .git "$(git config --get remote.origin.url)")
-BASE_PATH="/$REPO_NAME" npm run build
+MSYS_NO_PATHCONV=1 BASE_PATH="/$REPO_NAME" npm run build
 touch out/.nojekyll
 cd out
 rm -rf .git
