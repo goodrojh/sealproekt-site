@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ArrowUpRight, X } from "lucide-react";
 import SectionHeader from "@/components/SectionHeader";
@@ -150,57 +150,52 @@ function CaseModal({ c, onClose }: { c: (typeof CASES)[number]; onClose: () => v
   );
 }
 
+// Шахматная сетка: большой + поменьше, в следующем ряду наоборот
+const SPANS = ["lg:col-span-7", "lg:col-span-5", "lg:col-span-5", "lg:col-span-7"];
+
 export default function Cases() {
   const [active, setActive] = useState<number | null>(null);
-  const scroller = useRef<HTMLDivElement>(null);
-  const scroll = (d: number) => scroller.current?.scrollBy({ left: d * scroller.current.clientWidth * 0.8, behavior: "smooth" });
   const current = CASES.find((c) => c.id === active);
 
   return (
-    <section id="cases" className="bg-white py-24 md:py-32 font-sans overflow-hidden">
+    <section id="cases" className="bg-white py-24 md:py-32">
       <div className="max-w-6xl mx-auto px-5 md:px-8">
         <SectionHeader
           title="Интерьеры, которые мы довели до ключей"
           lead="Нажмите на объект, чтобы посмотреть кейс: задача, исходные данные, что сделали и результат."
-          action={
-          <div className="flex gap-2">
-            <button onClick={() => scroll(-1)} aria-label="Назад" className="h-12 w-12 rounded-full border border-navy/15 flex items-center justify-center text-navy hover:bg-navy hover:text-white transition-colors">
-              <ArrowLeft className="h-5 w-5" />
-            </button>
-            <button onClick={() => scroll(1)} aria-label="Вперёд" className="h-12 w-12 rounded-full bg-navy flex items-center justify-center text-white hover:bg-cognac transition-colors">
-              <ArrowRight className="h-5 w-5" />
-            </button>
-          </div>
-          }
         />
-      </div>
 
-      <div ref={scroller} className="flex gap-5 overflow-x-auto snap-x snap-mandatory no-scrollbar px-5 scroll-px-5 md:px-[max(2rem,calc((100vw-72rem)/2+2rem))] md:scroll-px-[max(2rem,calc((100vw-72rem)/2+2rem))] pb-4">
-        {CASES.map((c, i) => (
-          <motion.button
-            key={c.id}
-            type="button"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.08 }}
-            onClick={() => setActive(c.id)}
-            className="group snap-start shrink-0 w-[85vw] sm:w-[520px] md:w-[600px] text-left"
-          >
-            <div className="relative h-[380px] md:h-[440px] rounded-[28px] overflow-hidden">
-              <img {...img(c.cover, { sizes: "(max-width: 640px) 85vw, 600px" })} alt={c.title} className="absolute inset-0 w-full h-full object-cover md:group-hover:scale-105 transition-transform duration-1000" />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent" />
-              <span className="absolute top-5 right-5 h-12 w-12 rounded-full bg-white flex items-center justify-center text-navy group-hover:bg-cognac group-hover:text-white group-hover:rotate-45 transition-all">
-                <ArrowUpRight className="h-5 w-5" />
-              </span>
-              <div className="absolute left-6 bottom-6 right-6">
-                <p className="text-[14px] font-medium text-white/85">{c.meta}</p>
-                <h3 className="mt-1 t-h3 text-white">{c.title}</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-5 md:gap-6">
+          {CASES.map((c, i) => (
+            <motion.button
+              key={c.id}
+              type="button"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.6, delay: (i % 2) * 0.1 }}
+              onClick={() => setActive(c.id)}
+              className={"group text-left " + SPANS[i % 4]}
+            >
+              <div className="relative h-[360px] md:h-[420px] lg:h-[480px] rounded-[28px] overflow-hidden bg-sand">
+                <img
+                  {...img(c.cover, { sizes: "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 680px" })}
+                  alt={c.title}
+                  className="absolute inset-0 w-full h-full object-cover md:group-hover:scale-105 transition-transform duration-1000"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/30 via-45% to-transparent" />
+                <span className="absolute top-5 right-5 h-12 w-12 rounded-full bg-white flex items-center justify-center text-navy group-hover:bg-cognac group-hover:text-white group-hover:rotate-45 transition-all">
+                  <ArrowUpRight className="h-5 w-5" />
+                </span>
+                <div className="absolute left-6 right-6 bottom-6 md:left-8 md:right-8 md:bottom-8">
+                  <p className="text-[14px] font-medium text-white/85">{c.meta}</p>
+                  <h3 className="mt-1 t-h3 text-white">{c.title}</h3>
+                  <p className="mt-2 text-[16px] leading-[1.5] text-white/80 line-clamp-2 max-w-[520px]">{c.task}</p>
+                </div>
               </div>
-            </div>
-            <p className="mt-4 text-[16px] text-navy/65 line-clamp-2">{c.task}</p>
-          </motion.button>
-        ))}
+            </motion.button>
+          ))}
+        </div>
       </div>
 
       <AnimatePresence>{current && <CaseModal c={current} onClose={() => setActive(null)} />}</AnimatePresence>
