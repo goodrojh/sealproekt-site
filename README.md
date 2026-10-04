@@ -13,7 +13,8 @@ npm run dev
 - `public/img/*` — сейчас AI-иллюстрации (Higgsfield / Nano Banana Pro). Заменить реальными фото объектов с диска заказчика, сохранив имена файлов.
 - `components/sections/Cases.tsx` — кейсы-заглушки, заменить реальными.
 - `components/sections/DesignPricing.tsx` — состав тарифов дизайн-проекта подтвердить у заказчика.
-- Заявки: задать переменную репозитория `LEAD_ENDPOINT` (Settings → Variables → Actions) — URL, принимающий POST JSON (Telegram-бот, CRM, вебхук). Пока её нет, клиент после отправки может продублировать заявку в WhatsApp.
+- Заявки: задать `NEXT_PUBLIC_LEAD_ENDPOINT` в `.env.local` перед сборкой — URL, принимающий POST JSON (Telegram-бот, CRM, вебхук). Пока её нет, клиент после отправки может продублировать заявку в WhatsApp.
 
 ## Деплой
-Пуш в `main` → GitHub Actions собирает и публикует на GitHub Pages. Для своего домена: убрать `BASE_PATH` в workflow и добавить `public/CNAME`.
+`npm run deploy` — собирает сайт и публикует его в ветку `gh-pages` (GitHub Pages).
+Для своего домена: собирать без `BASE_PATH` и добавить `public/CNAME`.
