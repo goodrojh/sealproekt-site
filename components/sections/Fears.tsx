@@ -3,9 +3,10 @@ import React, { useRef, useState } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { Calculator, CalendarClock, UserRoundCheck, Eye, ClipboardCheck, Images, RotateCw } from "lucide-react";
 import { useLead } from "@/components/lead/LeadModal";
+import SectionHeader from "@/components/SectionHeader";
 
 // Главная мысль из брифа
-const MANIFESTO = "Ремонт не должен становиться вашей второй работой. Координацию исполнителей, закупки, график и контроль берём на себя — вам остаются решения и готовый интерьер.";
+const MANIFESTO = "Ремонт не должен становиться вашей второй работой.";
 
 function Word({ children, progress, range }: { children: string; progress: MotionValue<number>; range: [number, number] }) {
   const opacity = useTransform(progress, range, [0.18, 1]);
@@ -21,7 +22,7 @@ const FEARS = [
   {
     icon: Calculator,
     fear: "«Смета вырастет в процессе»",
-    answer: "Смету готовим в течение 24 часов после замера, презентуем и объясняем. Ориентир по точности — ±10%. Состав работ и бюджет фиксируем до начала соответствующих этапов.",
+    answer: "Смету готовим в течение 24 часов после замера, презентуем и объясняем. Ориентир по точности — ±10%. Состав работ и бюджет фиксируем до начала соответствующих этапов.",
   },
   {
     icon: CalendarClock,
@@ -99,29 +100,34 @@ export default function Fears() {
   const { open } = useLead();
 
   return (
-    <section className="relative bg-paper overflow-hidden">
+    <section id="idea" className="relative bg-paper overflow-hidden">
       <div className="absolute inset-0 pattern-dots opacity-60 pointer-events-none" />
-      <div ref={ref} className="relative max-w-5xl mx-auto px-5 md:px-8 pt-24 md:pt-32 pb-16">
-        <p className="t-section text-navy">
-          {words.map((w, i) => (
-            <Word key={i} progress={scrollYProgress} range={[i / words.length, Math.min(1, (i + 1.5) / words.length)]}>
-              {w}
-            </Word>
-          ))}
-        </p>
+      <div ref={ref} className="relative max-w-6xl mx-auto px-5 md:px-8 pt-24 md:pt-32 pb-20 md:pb-28">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6">
+          <p className="lg:col-span-9 t-h1 text-navy">
+            {words.map((w, i) => (
+              <Word key={i} progress={scrollYProgress} range={[i / words.length, Math.min(1, (i + 1.5) / words.length)]}>
+                {w}
+              </Word>
+            ))}
+          </p>
+          <div className="lg:col-start-7 lg:col-span-6 flex gap-5">
+            <span className="mt-2 h-px w-12 shrink-0 bg-cognac" />
+            <p className="t-lead text-navy/70">
+              Координацию исполнителей, закупки, график и контроль берём на себя. Вам остаются решения — и готовый интерьер.
+            </p>
+          </div>
+        </div>
       </div>
 
       <div className="relative max-w-6xl mx-auto px-5 md:px-8 pb-24 md:pb-32">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6 mb-10">
-          <h2 className="t-section text-navy max-w-xl">Чего обычно опасаются перед ремонтом — и как это устроено у нас</h2>
-          <p className="text-[16px] text-navy/60 max-w-sm">Нажмите на карточку, чтобы увидеть ответ.</p>
-        </div>
+        <SectionHeader title="Чего обычно опасаются перед ремонтом — и как это устроено у нас" lead="Нажмите на карточку, чтобы увидеть ответ." />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
           {FEARS.map((f, i) => (
             <FearCard key={f.fear} f={f} i={i} />
           ))}
         </div>
-        <div className="mt-10 flex justify-center">
+        <div className="mt-12 flex justify-center">
           <button
             onClick={() =>
               open({

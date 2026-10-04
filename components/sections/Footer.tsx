@@ -28,7 +28,7 @@ export default function Footer() {
             <br /> <span className="text-cognac">Не ваша.</span>
           </motion.h2>
           <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.3 }} className="mt-6 t-lead text-white/85 max-w-xl">
-            Запишитесь на замер — смету получите в течение 24 часов после него.
+            Запишитесь на замер — смету получите в течение 24 часов после него.
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.35 }} className="mt-10 flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
             <button
@@ -37,7 +37,7 @@ export default function Footer() {
                   offer: "measure",
                   source: "Финальный экран — Записаться на замер",
                   title: "Запишитесь на замер",
-                  subtitle: "Смета — в течение 24 часов после замера, с личной презентацией.",
+                  subtitle: "Смета — в течение 24 часов после замера, с личной презентацией.",
                   cta: "Записаться на замер",
                   image: "/img/night.jpg",
                 })

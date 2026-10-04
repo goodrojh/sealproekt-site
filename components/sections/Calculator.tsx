@@ -7,9 +7,9 @@ import { SITE, fmt } from "@/lib/site";
 
 const DESIGN = [
   { id: 0, label: "Без дизайн-проекта", price: 0 },
-  { id: 1, label: "Дизайн 1 900 ₽/м²", price: 1900 },
-  { id: 2, label: "Дизайн 2 700 ₽/м²", price: 2700 },
-  { id: 3, label: "Дизайн 3 500 ₽/м²", price: 3500 },
+  { id: 1, label: "Дизайн 1 900 ₽/м²", price: 1900 },
+  { id: 2, label: "Дизайн 2 700 ₽/м²", price: 2700 },
+  { id: 3, label: "Дизайн 3 500 ₽/м²", price: 3500 },
 ];
 const TYPES = ["Новостройка", "Вторичное жильё", "Дом"];
 
@@ -32,19 +32,19 @@ export default function Calculator() {
     <section id="calc" className="relative w-full px-5 md:px-8 py-24 md:py-32 gradient-brand overflow-hidden">
       <div className="absolute inset-0 pattern-grid-light" />
       <div className="absolute -right-60 -top-20 w-[700px] h-[700px] glow-cognac pointer-events-none" />
-      <div className="relative max-w-6xl mx-auto grid lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-16 items-center">
+      <div className="relative max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-16 items-center">
         <div>
           <h2 className="t-section text-white">
             Посчитайте ориентир
             <br /> за 30 секунд
           </h2>
           <p className="mt-5 t-lead text-white/80 max-w-md">
-            Ремонт квартир под ключ — от 20 000 ₽/м². Дизайн-проект — 1 900 / 2 700 / 3 500 ₽/м² в зависимости от состава. Средний бюджет проекта — {SITE.avgBudget}.
+            Ремонт квартир под ключ — от 20 000 ₽/м². Дизайн-проект — 1 900 / 2 700 / 3 500 ₽/м² в зависимости от состава. Средний бюджет проекта — {SITE.avgBudget}.
           </p>
           <div className="mt-8 flex items-start gap-3 rounded-2xl border border-white/15 bg-white/5 p-4 max-w-md">
             <Info className="h-5 w-5 text-cognac shrink-0 mt-0.5" />
             <p className="text-[14px] text-white/75 leading-[1.5]">
-              Это нижняя граница по базовой ставке. Точную стоимость покажет смета: готовим её в течение 24 часов после замера, точность — ±10%.
+              Это нижняя граница по базовой ставке. Точную стоимость покажет смета: готовим её в течение 24 часов после замера, точность — ±10%.
             </p>
           </div>
         </div>
@@ -85,8 +85,8 @@ export default function Calculator() {
             aria-label="Площадь квартиры"
           />
           <div className="flex justify-between text-[12px] text-navy/50 mt-2">
-            <span>20 м²</span>
-            <span>200 м²</span>
+            <span>20 м²</span>
+            <span>200 м²</span>
           </div>
 
           <p className="mt-8 mb-3 text-[16px] font-semibold text-navy">Дизайн-проект</p>
@@ -112,9 +112,9 @@ export default function Calculator() {
               <span>{designCost ? fmt(designCost) + " ₽" : "—"}</span>
             </div>
             <div className="h-px bg-navy/10 my-4" />
-            <div className="flex items-end justify-between gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 sm:gap-4">
               <span className="text-[14px] font-semibold text-navy">Ориентир</span>
-              <span className="text-[28px] md:text-[32px] font-bold text-navy leading-none tabular-nums overflow-hidden whitespace-nowrap">
+              <span className="text-[28px] md:text-[32px] font-bold text-navy leading-none tabular-nums whitespace-nowrap">
                 от <Counter value={total} /> ₽
               </span>
             </div>
@@ -126,7 +126,7 @@ export default function Calculator() {
                 offer: "calc",
                 source: "Калькулятор",
                 title: "Получите точную смету",
-                subtitle: `Ориентир по калькулятору — от ${fmt(total)} ₽. Запишем на замер и подготовим смету за 24 часа.`,
+                subtitle: `Ориентир по калькулятору — от ${fmt(total)} ₽. Запишем на замер и подготовим смету за 24 часа.`,
                 cta: "Получить смету",
                 image: "/img/studio.jpg",
                 preset: {

@@ -21,7 +21,7 @@ export default function Excursion() {
   const { open } = useLead();
 
   return (
-    <section className="w-full px-3 md:px-6 py-6 bg-white">
+    <section id="tour" className="w-full px-3 md:px-6 py-6 bg-white">
       <div ref={ref} className="relative rounded-[32px] md:rounded-[40px] overflow-hidden min-h-[700px] md:min-h-[660px] flex items-end">
         <motion.img
           style={desktop ? { y } : undefined}
@@ -32,7 +32,7 @@ export default function Excursion() {
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/10" />
         <div className="absolute inset-0 bg-gradient-to-r from-ink/70 to-transparent" />
 
-        <div className="relative z-10 w-full p-6 md:p-14 grid lg:grid-cols-[1.2fr_1fr] gap-8 items-end">
+        <div className="relative z-10 w-full p-6 md:p-14 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-8 items-end">
           <div>
             <h2 className="t-section text-white">
               Посмотрите объект в работе

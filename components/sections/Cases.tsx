@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ArrowUpRight, X } from "lucide-react";
+import SectionHeader from "@/components/SectionHeader";
 import { useLead } from "@/components/lead/LeadModal";
 import { img } from "@/lib/site";
 
@@ -12,7 +13,7 @@ const CASES = [
     title: "Квартира с видом на Енисей",
     meta: "Новостройка · дизайн-проект + ремонт",
     cover: "/img/hero.jpg",
-    gallery: ["/img/hero.jpg", "/img/viz.jpg", "/img/kitchen.jpg", "/img/bedroom.jpg"],
+    gallery: ["/img/hero.jpg", "/img/sketch.jpg", "/img/kitchen.jpg", "/img/bedroom.jpg"],
     task: "Спокойный тёплый интерьер для семьи с панорамными окнами, без визуального шума.",
     input: "Квартира от застройщика без отделки, панорамное остекление.",
     done: "Дизайн-проект, черновые и чистовые работы, электрика, скрытая подсветка, комплектация.",
@@ -24,7 +25,7 @@ const CASES = [
     title: "Санузел с монолитной раковиной",
     meta: "Вторичное жильё · ремонт по проекту",
     cover: "/img/bath.jpg",
-    gallery: ["/img/bath.jpg", "/img/process.jpg"],
+    gallery: ["/img/bath-before.jpg", "/img/bath.jpg"],
     task: "Современный санузел с душевой зоной вместо ванны.",
     input: "Старая плитка и трубы, неровные стены.",
     done: "Демонтаж, замена коммуникаций, гидроизоляция, крупноформатный керамогранит, трап.",
@@ -84,7 +85,7 @@ function CaseModal({ c, onClose }: { c: (typeof CASES)[number]; onClose: () => v
         initial={{ y: 40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 30, opacity: 0 }}
-        className="relative w-full max-w-6xl h-full md:h-auto md:max-h-[92vh] overflow-y-auto bg-white md:rounded-[28px] grid lg:grid-cols-[1.4fr_1fr]"
+        className="relative w-full max-w-6xl h-full md:h-auto md:max-h-[92vh] overflow-y-auto bg-white md:rounded-[28px] grid grid-cols-1 lg:grid-cols-[1.4fr_1fr]"
       >
         <div className="relative bg-ink aspect-[4/3] lg:aspect-auto lg:min-h-[640px]">
           <AnimatePresence mode="popLayout">
@@ -116,7 +117,7 @@ function CaseModal({ c, onClose }: { c: (typeof CASES)[number]; onClose: () => v
           <h3 className="mt-2 t-h2 text-navy pr-10">{c.title}</h3>
           <dl className="mt-6 flex flex-col gap-4">
             {rows.map(([k, v]) => (
-              <div key={k} className="grid sm:grid-cols-[150px_1fr] gap-1 sm:gap-3 border-b border-navy/10 pb-4">
+              <div key={k} className="grid grid-cols-1 sm:grid-cols-[150px_1fr] gap-1 sm:gap-3 border-b border-navy/10 pb-4">
                 <dt className="text-[14px] font-semibold text-navy">{k}</dt>
                 <dd className="text-[16px] text-navy/75 leading-[1.6]">{v}</dd>
               </div>
@@ -158,13 +159,10 @@ export default function Cases() {
   return (
     <section id="cases" className="bg-white py-24 md:py-32 font-sans overflow-hidden">
       <div className="max-w-6xl mx-auto px-5 md:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-10">
-          <div>
-            <h2 className="t-section text-navy">
-              Интерьеры, которые
-              <br /> мы довели до ключей
-            </h2>
-          </div>
+        <SectionHeader
+          title="Интерьеры, которые мы довели до ключей"
+          lead="Нажмите на объект, чтобы посмотреть кейс: задача, исходные данные, что сделали и результат."
+          action={
           <div className="flex gap-2">
             <button onClick={() => scroll(-1)} aria-label="Назад" className="h-12 w-12 rounded-full border border-navy/15 flex items-center justify-center text-navy hover:bg-navy hover:text-white transition-colors">
               <ArrowLeft className="h-5 w-5" />
@@ -173,10 +171,11 @@ export default function Cases() {
               <ArrowRight className="h-5 w-5" />
             </button>
           </div>
-        </div>
+          }
+        />
       </div>
 
-      <div ref={scroller} className="flex gap-5 overflow-x-auto snap-x snap-mandatory no-scrollbar px-5 md:px-[max(2rem,calc((100vw-72rem)/2+2rem))] pb-4">
+      <div ref={scroller} className="flex gap-5 overflow-x-auto snap-x snap-mandatory no-scrollbar px-5 scroll-px-5 md:px-[max(2rem,calc((100vw-72rem)/2+2rem))] md:scroll-px-[max(2rem,calc((100vw-72rem)/2+2rem))] pb-4">
         {CASES.map((c, i) => (
           <motion.button
             key={c.id}

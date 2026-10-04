@@ -140,7 +140,7 @@ function LeadDialog({ config, onClose }: { config: LeadConfig; onClose: () => vo
         animate={{ y: 0, opacity: 1, scale: 1 }}
         exit={{ y: 30, opacity: 0, scale: 0.98 }}
         transition={{ duration: 0.35, ease: [0.21, 0.47, 0.32, 0.98] }}
-        className="relative w-full sm:max-w-[920px] max-h-[94vh] overflow-y-auto bg-white rounded-t-[28px] sm:rounded-[28px] shadow-2xl grid md:grid-cols-[0.85fr_1.15fr]"
+        className="relative w-full sm:max-w-[920px] max-h-[94vh] overflow-y-auto bg-white rounded-t-[28px] sm:rounded-[28px] shadow-2xl grid grid-cols-1 md:grid-cols-[0.85fr_1.15fr]"
       >
         {/* Левая панель — визуал и что получит клиент */}
         <div className="relative hidden md:flex flex-col justify-end p-8 min-h-[560px] overflow-hidden rounded-l-[28px]">
@@ -155,7 +155,7 @@ function LeadDialog({ config, onClose }: { config: LeadConfig; onClose: () => vo
             </div>
             <p className="mt-4 text-white text-[16px] leading-[1.6]">{OFFERS[offer].result}</p>
             <div className="mt-6 flex flex-col gap-2 text-[14px] text-white/80">
-              <span className="flex items-center gap-2"><Check className="h-4 w-4 text-cognac" /> Смета — в течение 24 часов после замера</span>
+              <span className="flex items-center gap-2"><Check className="h-4 w-4 text-cognac" /> Смета — в течение 24 часов после замера</span>
               <span className="flex items-center gap-2"><Check className="h-4 w-4 text-cognac" /> Точность расчёта ±10%</span>
               <span className="flex items-center gap-2"><Check className="h-4 w-4 text-cognac" /> Персональный проектный менеджер</span>
             </div>
@@ -339,7 +339,7 @@ function LeadDialog({ config, onClose }: { config: LeadConfig; onClose: () => vo
                     {[
                       "Менеджер свяжется с вами в рабочее время и уточнит задачу по объекту",
                       "Согласуем следующий шаг: консультацию, замер или экскурсию на объект",
-                      "После замера — смета в течение 24 часов и её личная презентация",
+                      "После замера — смета в течение 24 часов и её личная презентация",
                     ].map((t, i) => (
                       <li key={i} className="flex gap-3 text-[16px] text-navy/75 leading-[1.5]">
                         <span className="h-6 w-6 shrink-0 rounded-full bg-navy text-white text-[12px] font-bold flex items-center justify-center">{i + 1}</span>

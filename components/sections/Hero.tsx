@@ -17,7 +17,7 @@ const NAV = [
 const FACTS = [
   { v: "с 2012", l: "работаем в Красноярске" },
   { v: SITE.objects, l: "реализованных объектов" },
-  { v: "24 ч", l: "смета после замера" },
+  { v: "24 ч", l: "смета после замера" },
   { v: "±10%", l: "точность сметы" },
 ];
 
@@ -91,7 +91,7 @@ export default function Hero() {
       offer: "measure",
       source: "Первый экран — Записаться на замер",
       title: "Запишитесь на замер",
-      subtitle: "Проектный менеджер приедет на объект, а смету вы получите в течение 24 часов после замера.",
+      subtitle: "Проектный менеджер приедет на объект, а смету вы получите в течение 24 часов после замера.",
       cta: "Записаться на замер",
       image: "/img/process.jpg",
     });
@@ -193,7 +193,7 @@ export default function Hero() {
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="t-h1 text-white max-w-3xl mb-6"
         >
-          Ремонт квартир под ключ в Красноярске <span className="text-cognac whitespace-nowrap">от 20 000 ₽/м²</span>
+          Ремонт квартир под ключ в Красноярске <span className="text-cognac whitespace-nowrap">от 20 000 ₽/м²</span>
         </motion.h1>
 
         <motion.p
@@ -228,7 +228,7 @@ export default function Hero() {
           </button>
         </motion.div>
         <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }} className="mt-4 text-[14px] text-white/70">
-          Получите смету в течение 24 часов после замера
+          Получите смету в течение 24 часов после замера
         </motion.span>
 
         <motion.div

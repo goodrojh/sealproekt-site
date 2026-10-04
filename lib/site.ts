@@ -43,7 +43,7 @@ export const SITE = {
   objects: "700+", // подтвердить перед публикацией
   priceFrom: 20000,
   designPrices: [1900, 2700, 3500], // актуальную сетку подтвердить перед публикацией
-  avgBudget: "от 2,7 млн ₽",
+  avgBudget: "от 2,7 млн ₽",
   // Куда отправлять заявки (Telegram-бот / CRM / вебхук). Пусто — заявка дублируется в WhatsApp.
   leadEndpoint: process.env.NEXT_PUBLIC_LEAD_ENDPOINT || "",
 };
@@ -54,12 +54,12 @@ export const OFFERS: Record<OfferId, { label: string; cta: string; result: strin
   calc: {
     label: "Предварительный расчёт стоимости ремонта",
     cta: "Рассчитать стоимость ремонта",
-    result: "Предварительный расчёт стоимости. Следующий шаг — замер, после него смета в течение 24 часов.",
+    result: "Предварительный расчёт стоимости. Следующий шаг — замер, после него смета в течение 24 часов.",
   },
   measure: {
     label: "Запись на замер",
     cta: "Записаться на замер",
-    result: "Проектный менеджер согласует время замера. Смету вы получите в течение 24 часов после замера.",
+    result: "Проектный менеджер согласует время замера. Смету вы получите в течение 24 часов после замера.",
   },
   sink: {
     label: "Раковина из керамогранита в подарок",
@@ -95,4 +95,4 @@ export const OFFERS: Record<OfferId, { label: string; cta: string; result: strin
 
 export const PROMO_IDS: OfferId[] = ["sink", "design-gift", "early5"];
 
-export const fmt = (n: number) => n.toLocaleString("ru-RU").replace(/\s/g, " ");
+export const fmt = (n: number) => n.toLocaleString("ru-RU").replace(/\s/g, " ");

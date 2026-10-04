@@ -1,4 +1,5 @@
 "use client";
+import SectionHeader from "@/components/SectionHeader";
 import React from "react";
 import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
@@ -17,10 +18,10 @@ const CHAT = [
 ];
 
 const ESTIMATE = [
-  { n: "Черновые работы", v: "612 000" },
-  { n: "Электрика", v: "238 000" },
-  { n: "Сантехника", v: "184 000" },
-  { n: "Чистовые работы", v: "746 000" },
+  { n: "Черновые работы", v: "612 000" },
+  { n: "Электрика", v: "238 000" },
+  { n: "Сантехника", v: "184 000" },
+  { n: "Чистовые работы", v: "746 000" },
 ];
 
 const SCHEDULE = [
@@ -36,20 +37,11 @@ export default function Control() {
     <section id="control" className="w-full px-5 md:px-8 py-24 md:py-32 bg-paper relative overflow-hidden">
       <div className="absolute -top-72 left-0 w-[700px] h-[700px] glow-steel pointer-events-none" />
 
-      <div className="max-w-6xl mx-auto relative z-10 mb-12 md:mb-14 text-center">
-        <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="t-section text-navy">
-          Не набор подрядчиков,
-          <br /> а управляемый процесс
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="mt-5 t-lead text-navy/65 max-w-2xl mx-auto"
-        >
-          Персональный менеджмент проекта, прозрачная коммуникация и ответственность за результат. Вы понимаете, что происходит на объекте, без ежедневных поездок.
-        </motion.p>
+      <div className="max-w-6xl mx-auto relative z-10">
+        <SectionHeader
+          title="Не набор подрядчиков, а управляемый процесс"
+          lead="Персональный менеджмент проекта, прозрачная коммуникация и ответственность за результат. Вы знаете, что происходит на объекте, без ежедневных поездок."
+        />
       </div>
 
       <motion.div
@@ -67,9 +59,8 @@ export default function Control() {
           </div>
           <div className="relative z-10">
             <h3 className="t-h2 text-white">
-              Один ответственный —
-              <br />
-              <span className="text-cognac">весь проект</span>
+              Один ответственный —{" "}
+              <span className="text-cognac whitespace-nowrap">весь проект</span>
             </h3>
             <p className="text-[16px] text-white/90 leading-[1.6] max-w-[440px] mt-3">
               Персональный проектный менеджер — главный контакт клиента по проекту: от замера и сметы до сдачи объекта и гарантийного сопровождения.
@@ -147,7 +138,7 @@ export default function Control() {
             <div className="relative z-10 w-full max-w-[300px] bg-white rounded-2xl shadow-xl shadow-navy/10 border border-navy/5 p-5">
               <div className="flex items-center gap-2 mb-4">
                 <FileText className="h-4 w-4 text-cognac" />
-                <span className="text-[14px] font-semibold text-navy">Смета · 24 часа после замера</span>
+                <span className="text-[14px] font-semibold text-navy">Смета · 24 часа после замера</span>
               </div>
               <div className="flex flex-col gap-2.5">
                 {ESTIMATE.map((r, i) => (
@@ -185,7 +176,7 @@ export default function Control() {
           <div className="p-6 md:p-7">
             <h3 className="t-h3 text-navy">Смету не просто отправляем — презентуем</h3>
             <p className="text-[16px] text-navy/65 leading-[1.6] mt-2">
-              Расчёт готовим в течение 24 часов после замера, затем разбираем и объясняем его вместе с вами. Ориентир по точности — ±10%.
+              Расчёт готовим в течение 24 часов после замера, затем разбираем и объясняем его вместе с вами. Ориентир по точности — ±10%.
             </p>
           </div>
         </motion.div>

@@ -1,17 +1,18 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import SectionHeader from "@/components/SectionHeader";
 import { useLead } from "@/components/lead/LeadModal";
 import { img } from "@/lib/site";
 
 const STEPS = [
   { t: "Заявка и первичная консультация", d: "Обсуждаем объект, задачу и формат работы: с дизайн-проектом, по готовому проекту или без него.", img: "/img/office.jpg" },
   { t: "Выезд ПМ и замер", d: "Проектный менеджер приезжает на замер объекта. Можно совместить с экскурсией на наши объекты.", img: "/img/process.jpg" },
-  { t: "Смета в течение 24 часов", d: "Готовим смету в течение 24 часов после замера. Ориентир по точности — ±10%.", img: "/img/design.jpg" },
+  { t: "Смета в течение 24 часов", d: "Готовим смету в течение 24 часов после замера. Ориентир по точности — ±10%.", img: "/img/design.jpg" },
   { t: "Презентация и разбор сметы", d: "Смету не просто отправляем, а презентуем и объясняем: что входит в работы и из чего складывается стоимость.", img: "/img/kitchen.jpg" },
   { t: "Экскурсия на объект", d: "Объект в работе или встреча на готовом объекте. При необходимости организуем трансфер; на действующем объекте можно обсудить решения с ПМ.", img: "/img/tour.jpg" },
   { t: "Договор, график и этапы оплаты", d: "Фиксируем объём, смету, сроки и обязательства, согласуем график и этапы оплаты.", img: "/img/hall.jpg" },
-  { t: "Дизайн-проект", d: "Если он нужен и разрабатывается у нас.", img: "/img/viz.jpg" },
+  { t: "Дизайн-проект", d: "Если он нужен и разрабатывается у нас.", img: "/img/sketch.jpg" },
   { t: "Ремонтные работы под управлением ПМ", d: "Черновые и чистовые работы, электрика, сантехника, комплектация — под управлением проектного менеджера.", img: "/img/process.jpg" },
   { t: "Чат, отчёты, контроль графика", d: "Рабочий чат, регулярные отчёты, контроль графика и коммуникация по объекту.", img: "/img/bath.jpg" },
   { t: "Сдача объекта и гарантийное сопровождение", d: "Сдаём объект; условия и сроки гарантии закреплены в договоре.", img: "/img/hero.jpg" },
@@ -38,14 +39,9 @@ export default function Process() {
   return (
     <section id="process" className="w-full px-5 md:px-8 py-24 md:py-32 bg-white relative">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16 md:mb-20">
-          <h2 className="t-section text-navy">
-            10 шагов от заявки
-            <br /> до готового интерьера
-          </h2>
-        </div>
+        <SectionHeader title="10 шагов от заявки до готового интерьера" lead="Понятный путь от первого замера до готового интерьера — на каждом этапе вы знаете, что происходит и что будет дальше." />
 
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
           {/* Липкая визуальная панель */}
           <div className="hidden lg:block">
             <div className="sticky top-28 h-[calc(100vh-160px)] max-h-[640px] rounded-[32px] overflow-hidden">
@@ -110,7 +106,7 @@ export default function Process() {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-14"
+          className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mt-14 lg:pl-[calc(50%+2rem)]"
         >
           <button
             onClick={() =>

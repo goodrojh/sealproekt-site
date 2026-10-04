@@ -2,6 +2,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Gift, Percent, PencilRuler } from "lucide-react";
+import SectionHeader from "@/components/SectionHeader";
 import { useLead } from "@/components/lead/LeadModal";
 import { OFFERS, OfferId, img } from "@/lib/site";
 
@@ -35,15 +36,10 @@ const ITEMS: { id: OfferId; icon: typeof Gift; title: string; text: string; img:
 export default function Offers() {
   const { open } = useLead();
   return (
-    <section id="offers" className="w-full px-5 md:px-8 py-24 md:py-32 bg-white relative overflow-hidden">
+    <section id="offers" className="w-full px-5 md:px-8 py-24 md:py-32 bg-paper relative overflow-hidden">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-14">
-          <h2 className="t-section text-navy">Выберите своё предложение</h2>
-          <p className="mt-4 t-lead text-navy/65 max-w-xl mx-auto">
-            Условия и реальные сроки действия предложения менеджер подтвердит при звонке.
-          </p>
-        </div>
-        <div className="grid md:grid-cols-3 gap-5">
+        <SectionHeader title="Выберите своё предложение" lead="Условия и реальные сроки действия предложения менеджер подтвердит при звонке." />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {ITEMS.map((o, i) => (
             <motion.button
               key={o.id}
