@@ -7,10 +7,10 @@ import { useLead } from "@/components/lead/LeadModal";
 import { OFFERS, OfferId, PROMO_IDS, SITE, asset, imgUrl } from "@/lib/site";
 
 const NAV = [
+  { label: "Объекты", href: "#cases" },
   { label: "Форматы", href: "#formats" },
   { label: "Как работаем", href: "#process" },
   { label: "Стоимость", href: "#calc" },
-  { label: "Объекты", href: "#cases" },
   { label: "Вопросы", href: "#faq" },
 ];
 

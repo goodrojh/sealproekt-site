@@ -51,14 +51,14 @@ export default function FAQ() {
     });
 
   return (
-    <section id="faq" className="bg-white py-24 md:py-32 px-5 md:px-8 relative">
+    <section id="faq" className="bg-paper py-24 md:py-32 px-5 md:px-8 relative">
       <div className="relative max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-6">
         {/* Левая колонка: заголовок и контакт */}
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-32">
             <h2 className="t-section text-navy">Вопросы и ответы</h2>
             <p className="mt-4 t-lead text-navy/65">Коротко о стоимости, процессе и договоре.</p>
-            <div className="mt-8 hidden lg:block bg-paper rounded-[24px] p-6">
+            <div className="mt-8 hidden lg:block bg-white rounded-[24px] p-6">
               <img {...img("/img/tour.jpg", { sizes: "56px" })} alt="" width={56} height={56} className="h-14 w-14 rounded-full object-cover object-[30%_30%]" />
               <p className="mt-4 t-h4 text-navy">Остались вопросы?</p>
               <p className="mt-1 text-[14px] text-navy/65">Проектный менеджер ответит лично.</p>
@@ -92,7 +92,7 @@ export default function FAQ() {
             <div key={tab + i} className="border-b border-navy/10 py-5">
               <button onClick={() => setOpenIdx(openIdx === i ? null : i)} aria-expanded={openIdx === i} className="w-full flex justify-between items-center gap-4 text-left">
                 <span className="text-[16px] md:text-[18px] font-medium text-navy">{item.q}</span>
-                <motion.span animate={{ rotate: openIdx === i ? 45 : 0 }} className={"h-9 w-9 shrink-0 rounded-full flex items-center justify-center transition-colors " + (openIdx === i ? "bg-cognac text-white" : "bg-paper text-navy")}>
+                <motion.span animate={{ rotate: openIdx === i ? 45 : 0 }} className={"h-9 w-9 shrink-0 rounded-full flex items-center justify-center transition-colors " + (openIdx === i ? "bg-cognac text-white" : "bg-white text-navy")}>
                   <Plus className="h-5 w-5" />
                 </motion.span>
               </button>
@@ -106,7 +106,7 @@ export default function FAQ() {
             </div>
           ))}
 
-          <div className="lg:hidden mt-10 bg-paper rounded-[24px] p-6">
+          <div className="lg:hidden mt-10 bg-white rounded-[24px] p-6">
             <p className="t-h4 text-navy">Остались вопросы?</p>
             <p className="mt-1 text-[14px] text-navy/65">Проектный менеджер ответит лично.</p>
             <AskButton onClick={ask} className="mt-5" />

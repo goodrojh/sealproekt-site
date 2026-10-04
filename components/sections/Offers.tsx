@@ -36,7 +36,7 @@ const ITEMS: { id: OfferId; icon: typeof Gift; title: string; text: string; img:
 export default function Offers() {
   const { open } = useLead();
   return (
-    <section id="offers" className="w-full px-5 md:px-8 py-24 md:py-32 bg-paper relative overflow-hidden">
+    <section id="offers" className="w-full px-5 md:px-8 py-24 md:py-32 bg-white relative overflow-hidden">
       <div className="max-w-6xl mx-auto">
         <SectionHeader title="Выберите своё предложение" lead="Условия и реальные сроки действия предложения менеджер подтвердит при звонке." />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">

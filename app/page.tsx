@@ -23,6 +23,7 @@ export default function Home() {
     <LeadProvider>
       <main className="min-h-screen overflow-x-clip">
         <Hero />
+        <Cases />
         <Fears />
         <Formats />
         <Marquee />
@@ -32,7 +33,6 @@ export default function Home() {
         <Showcase />
         <Process />
         <DesignPricing />
-        <Cases />
         <Offers />
         <FAQ />
         <Footer />
