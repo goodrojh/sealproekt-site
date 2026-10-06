@@ -46,7 +46,7 @@ export default function MobileBar() {
                 title: "Рассчитаем стоимость ремонта",
                 subtitle: "Ответьте на 3 вопроса — подготовим предварительный расчёт.",
                 cta: "Получить расчёт",
-                image: "/img/hero.jpg",
+                image: "/img/w87.jpg",
               })
             }
             className="flex-1 rounded-full bg-cognac text-white text-[16px] font-semibold"

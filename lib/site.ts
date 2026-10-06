@@ -7,7 +7,7 @@ export const asset = (p: string) => `${BASE_PATH}${p}`;
 const SIZES_HALF = "(max-width: 768px) 100vw, 50vw";
 
 // Адаптивное фото: WebP нескольких размеров, ленивая загрузка по умолчанию.
-// Использование: <img {...img("/img/kitchen.jpg")} alt="" />
+// Использование: <img {...img("/img/w89.jpg")} alt="" />
 export function img(src: string, opts: { sizes?: string; eager?: boolean } = {}) {
   const name = src.replace(/^\/img\//, "").replace(/\.\w+$/, "");
   const widths = (IMAGES as Record<string, number[]>)[name];

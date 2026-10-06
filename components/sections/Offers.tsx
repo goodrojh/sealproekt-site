@@ -12,7 +12,7 @@ const ITEMS: { id: OfferId; icon: typeof Gift; title: string; text: string; img:
     icon: Gift,
     title: "Раковина из керамогранита в подарок",
     text: "Условия и срок действия уточнит менеджер.",
-    img: "/img/bath.jpg",
+    img: "/img/w52.jpg",
     cta: OFFERS.sink.cta,
   },
   {
@@ -28,7 +28,7 @@ const ITEMS: { id: OfferId; icon: typeof Gift; title: string; text: string; img:
     icon: Percent,
     title: "Скидка 5% за раннее планирование",
     text: "Для тех, кто планирует ремонт заранее.",
-    img: "/img/bedroom.jpg",
+    img: "/img/w85.jpg",
     cta: OFFERS.early5.cta,
   },
 ];

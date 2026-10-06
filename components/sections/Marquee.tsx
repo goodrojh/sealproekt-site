@@ -3,7 +3,7 @@ import { img } from "@/lib/site";
 
 // Дополнительные услуги из брифа — бегущая строка + лента интерьеров (CSS-анимация, без JS)
 const WORDS = ["Дизайн-проект", "Черновые работы", "Чистовые работы", "Электрика", "Сантехника", "Комплектация"];
-const PHOTOS = ["/img/kitchen.jpg", "/img/bedroom.jpg", "/img/bath.jpg", "/img/hall.jpg", "/img/office.jpg", "/img/studio.jpg"];
+const PHOTOS = ["/img/w03.jpg", "/img/w87.jpg", "/img/w13.jpg", "/img/w85.jpg", "/img/w25.jpg", "/img/w76.jpg", "/img/w64.jpg", "/img/w22.jpg", "/img/w89.jpg", "/img/w30.jpg"];
 
 export default function Marquee() {
   return (

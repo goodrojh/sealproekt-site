@@ -47,7 +47,7 @@ export default function FAQ() {
       title: "Задайте вопрос менеджеру",
       subtitle: "Оставьте контакты — перезвоним и ответим на ваши вопросы по ремонту.",
       cta: "Жду звонка",
-      image: "/img/office.jpg",
+      image: "/img/w88.jpg",
     });
 
   return (

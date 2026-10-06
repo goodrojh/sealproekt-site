@@ -49,7 +49,7 @@ export default function Commercial() {
                 title: "Расчёт коммерческого помещения",
                 subtitle: "Расскажите об объекте — менеджер уточнит задачу и согласует замер. Стоимость рассчитываем индивидуально.",
                 cta: "Отправить заявку",
-                image: "/img/commercial.jpg",
+                image: "/img/w22.jpg",
                 preset: { objectType: "Коммерческий объект", area: 100, note: "Коммерческое помещение" },
               })
             }
@@ -65,7 +65,7 @@ export default function Commercial() {
           </button>
         </div>
         <div className="relative min-h-[300px] lg:min-h-full order-first lg:order-none">
-          <img {...img("/img/commercial.jpg", { sizes: "(max-width: 1024px) 100vw, 576px" })} alt="Коммерческое помещение после ремонта" className="absolute inset-0 w-full h-full object-cover" />
+          <img {...img("/img/w22.jpg", { sizes: "(max-width: 1024px) 100vw, 576px" })} alt="Ресторан — реализованный коммерческий объект" className="absolute inset-0 w-full h-full object-cover" />
         </div>
       </motion.div>
     </section>

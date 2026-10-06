@@ -58,7 +58,7 @@ export default function Footer() {
                   title: "Расчёт стоимости + подарок",
                   subtitle: "Выберите одно из предложений и оставьте данные по объекту.",
                   cta: "Получить расчёт",
-                  image: "/img/bath.jpg",
+                  image: "/img/w76.jpg",
                 })
               }
               className="rounded-full px-8 py-[18px] text-[16px] font-semibold bg-white/10 border border-white/30 text-white hover:bg-white/20 transition-colors"

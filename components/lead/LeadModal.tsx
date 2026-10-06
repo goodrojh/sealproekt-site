@@ -144,7 +144,7 @@ function LeadDialog({ config, onClose }: { config: LeadConfig; onClose: () => vo
       >
         {/* Левая панель — визуал и что получит клиент */}
         <div className="relative hidden md:flex flex-col justify-end p-8 min-h-[560px] overflow-hidden rounded-l-[28px]">
-          <img {...img(config.image || "/img/kitchen.jpg", { eager: true, sizes: "400px" })} alt="" className="absolute inset-0 w-full h-full object-cover" />
+          <img {...img(config.image || "/img/w89.jpg", { eager: true, sizes: "400px" })} alt="" className="absolute inset-0 w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/10" />
           <div className="relative z-10">
             <div className="flex items-center gap-3 text-white">

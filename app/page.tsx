@@ -10,6 +10,7 @@ import Control from "@/components/sections/Control";
 import Excursion from "@/components/sections/Excursion";
 import Calculator from "@/components/sections/Calculator";
 import Showcase from "@/components/sections/Showcase";
+import Gallery from "@/components/sections/Gallery";
 import Process from "@/components/sections/Process";
 import DesignPricing from "@/components/sections/DesignPricing";
 import Cases from "@/components/sections/Cases";
@@ -33,6 +34,7 @@ export default function Home() {
         <Excursion />
         <Calculator />
         <Showcase />
+        <Gallery />
         <Process />
         <DesignPricing />
         <Offers />

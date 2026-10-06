@@ -44,7 +44,7 @@ export default function DesignPricing() {
         className="mx-5 md:mx-8 xl:mx-auto max-w-[1088px] relative rounded-[28px] overflow-hidden"
       >
         <div className="absolute inset-0 z-0">
-          <img {...img("/img/bedroom.jpg", { sizes: "100vw" })} alt="" className="absolute inset-0 w-full h-full object-cover" />
+          <img {...img("/img/w87.jpg", { sizes: "100vw" })} alt="" className="absolute inset-0 w-full h-full object-cover" />
           <div className="absolute inset-0 bg-navy/40" />
         </div>
 

@@ -128,7 +128,7 @@ export default function Calculator() {
                 title: "Получите точную смету",
                 subtitle: `Ориентир по калькулятору — от ${fmt(total)} ₽. Запишем на замер и подготовим смету за 24 часа.`,
                 cta: "Получить смету",
-                image: "/img/studio.jpg",
+                image: "/img/w87.jpg",
                 preset: {
                   area,
                   objectType: type,

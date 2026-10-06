@@ -76,7 +76,7 @@ export default function Hero() {
           title: OFFERS[promo].cta,
           subtitle: OFFERS[promo].result,
           cta: "Получить предложение",
-          image: "/img/hero.jpg",
+          image: "/img/w87.jpg",
         })
       : open({
           offer: "calc",
@@ -84,7 +84,7 @@ export default function Hero() {
           title: "Рассчитаем стоимость ремонта",
           subtitle: "Ответьте на несколько вопросов — подготовим предварительный расчёт и предложим время замера.",
           cta: "Получить расчёт",
-          image: "/img/hero.jpg",
+          image: "/img/w87.jpg",
         });
   const openMeasure = () =>
     open({
