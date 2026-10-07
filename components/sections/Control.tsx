@@ -1,6 +1,6 @@
 "use client";
 import SectionHeader from "@/components/SectionHeader";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
 import { CheckCheck, FileText, MessagesSquare, ClipboardList, UserRound, Wallet } from "lucide-react";
@@ -32,6 +32,39 @@ const SCHEDULE = [
   { n: "Комплектация и сдача", w: 0, s: 78 },
 ];
 
+// Фото команды СЕАЛ ПРОЕКТ (присланы заказчиком), плавная смена кадров
+const PM_PHOTOS = [
+  { src: "/img/pm2.jpg", alt: "Специалист СЕАЛ ПРОЕКТ консультирует клиента" },
+  { src: "/img/pm1.jpg", alt: "Специалист СЕАЛ ПРОЕКТ на стенде компании" },
+];
+
+function PmPhotos() {
+  const [k, setK] = useState(0);
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const t = setInterval(() => setK((v) => (v + 1) % PM_PHOTOS.length), 5000);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <div className="relative h-[260px] md:h-[300px] overflow-hidden bg-ink">
+      {PM_PHOTOS.map((p, i) => (
+        <img
+          key={p.src}
+          {...img(p.src, { sizes: "(max-width: 768px) 100vw, 576px" })}
+          alt={p.alt}
+          className={"absolute inset-0 w-full h-full object-cover object-[50%_22%] transition-opacity duration-1000 " + (i === k ? "opacity-100" : "opacity-0")}
+        />
+      ))}
+      <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-navy to-transparent" />
+      <div className="absolute bottom-4 left-6 md:left-7 flex gap-1.5">
+        {PM_PHOTOS.map((p, i) => (
+          <button key={p.src} onClick={() => setK(i)} aria-label={`Фото ${i + 1}`} className={"h-1.5 rounded-full transition-all " + (i === k ? "w-8 bg-white" : "w-3 bg-white/50")} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Control() {
   return (
     <section id="control" className="w-full px-5 md:px-8 py-24 md:py-32 bg-paper relative overflow-hidden">
@@ -51,34 +84,35 @@ export default function Control() {
         viewport={{ once: true, margin: "-100px" }}
         className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-6xl mx-auto relative z-10"
       >
-        {/* ПМ */}
-        <motion.div variants={cardVariants} className="rounded-[32px] p-6 md:p-7 flex flex-col gap-10 group relative overflow-hidden min-h-[460px]">
-          <div className="absolute inset-0 z-0">
-            <img {...img("/img/tour.jpg")} alt="Проектный менеджер на объекте" className="w-full h-full object-cover md:group-hover:scale-105 transition-transform duration-700" />
-            <div className="absolute inset-0 bg-gradient-to-b from-ink/80 via-ink/30 to-ink/80" />
-          </div>
-          <div className="relative z-10">
-            <h3 className="t-h2 text-white">
-              Один ответственный —{" "}
-              <span className="text-cognac whitespace-nowrap">весь проект</span>
-            </h3>
-            <p className="text-[16px] text-white/90 leading-[1.6] max-w-[440px] mt-3">
-              Персональный проектный менеджер — главный контакт клиента по проекту: от замера и сметы до сдачи объекта и гарантийного сопровождения.
-            </p>
-          </div>
-          <div className="mt-auto grid grid-cols-1 sm:grid-cols-2 gap-3 relative z-10">
-            {[
-              { i: MessagesSquare, t: "Рабочий чат", d: "Вопросы и решения по объекту — в одном месте." },
-              { i: ClipboardList, t: "Регулярные отчёты", d: "Понятная фиксация этапов и выполненных работ." },
-            ].map((x) => (
-              <div key={x.t} className="flex flex-col gap-3 p-5 rounded-[22px] bg-ink/45 border border-white/20">
-                <div className="w-11 h-11 rounded-2xl bg-white/15 border border-white/25 flex items-center justify-center">
-                  <x.i className="h-5 w-5 text-white" />
+        {/* ПМ — реальные фото команды */}
+        <motion.div variants={cardVariants} className="rounded-[32px] overflow-hidden bg-navy flex flex-col">
+          <PmPhotos />
+          <div className="p-6 md:p-7 flex flex-col gap-6 flex-1">
+            <div>
+              <h3 className="t-h2 text-white">
+                Один ответственный —{" "}
+                <span className="text-cognac whitespace-nowrap">весь проект</span>
+              </h3>
+              <p className="text-[16px] text-white/85 leading-[1.6] mt-3">
+                Персональный проектный менеджер — главный контакт клиента по проекту: от замера и сметы до сдачи объекта и гарантийного сопровождения.
+              </p>
+            </div>
+            <div className="mt-auto grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {[
+                { i: MessagesSquare, t: "Рабочий чат", d: "Вопросы и решения по объекту — в одном месте." },
+                { i: ClipboardList, t: "Регулярные отчёты", d: "Понятная фиксация этапов и выполненных работ." },
+              ].map((x) => (
+                <div key={x.t} className="flex gap-3 p-4 rounded-[20px] bg-white/[0.07] border border-white/15">
+                  <div className="w-10 h-10 shrink-0 rounded-xl bg-cognac flex items-center justify-center">
+                    <x.i className="h-5 w-5 text-white" />
+                  </div>
+                  <div>
+                    <span className="block text-[16px] font-semibold text-white">{x.t}</span>
+                    <p className="mt-1 text-[14px] text-white/75 leading-[1.5]">{x.d}</p>
+                  </div>
                 </div>
-                <span className="text-[16px] font-semibold text-white">{x.t}</span>
-                <p className="text-[14px] text-white/80 leading-[1.5]">{x.d}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </motion.div>
 
