@@ -158,7 +158,7 @@ export default function Hero() {
           {[
             { v: "с 2012", l: "ремонтируем квартиры в Красноярске" },
             { v: <span className="inline-flex items-center gap-1.5">{SITE.rating2gis.value}<Star className="h-6 w-6 fill-cognac text-cognac" /></span>, l: `рейтинг в 2ГИС, ${SITE.rating2gis.votes} оценок` },
-            { v: "24 ч", l: "смета после замера" },
+            { v: SITE.objects, l: "реализованных объектов" },
             { v: "±10%", l: "точность сметы" },
           ].map((f, i) => (
             <div key={i} className={"px-5 py-5 md:py-6 border-white/10 " + (i % 2 === 0 ? "border-r " : "md:border-r ") + (i < 2 ? "border-b md:border-b-0 " : "") + (i === 3 ? "md:border-r-0" : "")}>

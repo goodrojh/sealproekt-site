@@ -55,7 +55,7 @@ export default function Footer() {
           <div className="rounded-[24px] border border-white/15 bg-white/5 p-6 md:p-8 flex flex-col md:flex-row justify-between gap-8">
             <div>
               <Logo color="white" variant="full" width={160} />
-              <p className="mt-4 text-white/65 text-[14px] max-w-[280px]">Ремонт квартир под ключ в Красноярске с 2012 года.</p>
+              <p className="mt-4 text-white/65 text-[14px] max-w-[280px]">Ремонт квартир под ключ в Красноярске с 2012 года. Более 700 реализованных объектов.</p>
             </div>
             <ul className="flex flex-col gap-3 text-[14px]">
               <li>

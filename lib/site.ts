@@ -33,14 +33,15 @@ export const SITE = {
   name: "СЕАЛ ПРОЕКТ",
   domain: "sealproekt-remont.ru",
   city: "Красноярск",
-  // Телефон и адрес сверены с карточкой 2ГИС (октябрь 2026)
-  phone: "+7 (963) 191-31-40",
-  phoneHref: "tel:+79631913140",
-  whatsapp: "https://wa.me/79631913140",
+  // Телефон и WhatsApp — как на текущем сайте sealproekt-remont.ru (решение заказчика); адрес — по 2ГИС
+  phone: "+7 (960) 772-15-70",
+  phoneHref: "tel:+79607721570",
+  whatsapp: "https://wa.me/79607721570",
   telegram: "https://t.me/sealproekt",
   email: "mail@sealproekt.ru",
   address: "г. Красноярск, ул. Октябрьская, 10, офис 206 (цокольный этаж)",
   founded: 2012,
+  objects: "700+", // как в брифе (решение заказчика)
   priceFrom: 20000,
   designPrices: [1900, 2700, 3500], // актуальную сетку подтвердить перед публикацией
   // Отзывы
