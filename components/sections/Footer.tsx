@@ -1,149 +1,95 @@
 "use client";
 import React from "react";
-import { motion } from "framer-motion";
-import { ArrowRight, Mail, MapPin, Phone, MessageCircle } from "lucide-react";
+import { Check, Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react";
 import Logo from "@/components/Logo";
-import { useLead } from "@/components/lead/LeadModal";
-import { SITE, imgUrl } from "@/lib/site";
+import { LeadForm, useLead } from "@/components/lead/LeadModal";
+import { CTA_MAIN, SITE, imgUrl } from "@/lib/site";
 
 export default function Footer() {
-  const { open } = useLead();
+  const { promo } = useLead();
   const year = new Date().getFullYear();
 
   return (
     <section id="contacts" className="w-full bg-white pb-20 md:pb-0">
-      <div className="m-2 rounded-[24px] overflow-hidden relative min-h-[100svh] md:min-h-[860px] flex flex-col">
-        <div className="absolute inset-0 z-0" style={{ backgroundImage: `url('${imgUrl("/img/night.jpg", 1600)}')`, backgroundSize: "cover", backgroundPosition: "center" }} />
-        <div className="absolute inset-0 z-0 bg-ink/45" />
+      <div className="m-2 rounded-[24px] overflow-hidden relative">
+        <div className="absolute inset-0" style={{ backgroundImage: `url('${imgUrl("/img/cd00.jpg", 1280)}')`, backgroundSize: "cover", backgroundPosition: "center" }} />
+        <div className="absolute inset-0 bg-ink/85" />
 
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-5 md:px-20 pt-24 pb-10 text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="t-h1 text-white max-w-4xl"
-          >
-            Ремонт — наша работа.
-            <br /> <span className="text-cognac">Не ваша.</span>
-          </motion.h2>
-          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.3 }} className="mt-6 t-lead text-white/85 max-w-xl">
-            Запишитесь на замер — смету получите в течение 24 часов после него.
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.35 }} className="mt-10 flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-            <button
-              onClick={() =>
-                open({
-                  offer: "measure",
-                  source: "Финальный экран — Записаться на замер",
-                  title: "Запишитесь на замер",
-                  subtitle: "Смета — в течение 24 часов после замера, с личной презентацией.",
-                  cta: "Записаться на замер",
-                  image: "/img/night.jpg",
-                })
-              }
-              className="group flex items-center justify-between gap-4 rounded-full bg-cognac text-white p-1.5 pl-7 text-[16px] font-semibold hover:scale-[1.03] transition-transform"
-            >
-              Записаться на замер
-              <span className="h-12 w-12 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-cognac transition-colors">
-                <ArrowRight className="h-5 w-5" />
-              </span>
-            </button>
-            <button
-              onClick={() =>
-                open({
-                  offer: "calc",
-                  askOffer: true,
-                  source: "Финальный экран — Расчёт + акция",
-                  title: "Расчёт стоимости + подарок",
-                  subtitle: "Выберите одно из предложений и оставьте данные по объекту.",
-                  cta: "Получить расчёт",
-                  image: "/img/w76.jpg",
-                })
-              }
-              className="rounded-full px-8 py-[18px] text-[16px] font-semibold bg-white/10 border border-white/30 text-white hover:bg-white/20 transition-colors"
-            >
-              Расчёт + подарок на выбор
-            </button>
-          </motion.div>
+        <div className="relative max-w-6xl mx-auto px-5 md:px-8 pt-20 md:pt-28 pb-12 grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-10 lg:gap-16 items-start">
+          <div className="lg:sticky lg:top-28">
+            <h2 className="t-h1 text-white">
+              {CTA_MAIN.replace("Получить", "Получите")}
+            </h2>
+            <p className="mt-5 t-lead text-white/80 max-w-md">Ремонт — наша работа, не ваша. Оставьте заявку: подготовим предварительный расчёт и согласуем замер.</p>
+            <ul className="mt-8 flex flex-col gap-3">
+              {["Смета — в течение 24 часов после замера", "Точность сметы ±10%", "Персональный проектный менеджер", "Экскурсия на объект — по желанию"].map((t) => (
+                <li key={t} className="flex items-center gap-3 text-[16px] text-white/90">
+                  <span className="h-6 w-6 rounded-full bg-cognac flex items-center justify-center shrink-0">
+                    <Check className="h-3.5 w-3.5 text-white" strokeWidth={3} />
+                  </span>
+                  {t}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-10 flex flex-col gap-3">
+              <a href={SITE.phoneHref} className="inline-flex items-center gap-3 text-[24px] font-bold text-white hover:text-cognac transition-colors">
+                <Phone className="h-6 w-6 text-cognac" /> {SITE.phone}
+              </a>
+              <div className="flex gap-2">
+                <a href={SITE.whatsapp} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-white/25 px-4 py-2 text-[14px] font-semibold text-white hover:bg-white/10">
+                  <MessageCircle className="h-4 w-4" /> WhatsApp
+                </a>
+                <a href={SITE.telegram} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-white/25 px-4 py-2 text-[14px] font-semibold text-white hover:bg-white/10">
+                  <Send className="h-4 w-4" /> Telegram
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="rounded-[28px] bg-white p-6 md:p-9">
+            <LeadForm inline config={{ source: "Финальный блок (форма на странице)", offer: promo || "calc", title: "Заявка на расчёт" }} />
+          </div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="relative z-10 bg-ink/70 md:bg-white/10 md:backdrop-blur-xl border border-white/20 rounded-[24px] mx-3 md:mx-5 mb-3 md:mb-5 p-6 md:p-10"
-        >
-          <div className="flex flex-col md:flex-row justify-between gap-10">
-            <div className="md:w-[32%]">
-              <Logo color="white" variant="full" width={170} />
-              <p className="mt-5 text-white/70 text-[14px] leading-[1.5] max-w-[300px]">
-                Ремонт квартир под ключ в Красноярске с 2012 года. Дизайн-проект и реализация в одной команде.
-              </p>
-            </div>
+        <div className="relative max-w-6xl mx-auto px-5 md:px-8 pb-8">
+          <div className="rounded-[24px] border border-white/15 bg-white/5 p-6 md:p-8 flex flex-col md:flex-row justify-between gap-8">
             <div>
-              <h4 className="text-white text-[16px] font-medium mb-4">Услуги</h4>
-              <ul className="space-y-2">
-                {[
-                  ["Ремонт под ключ", "#formats"],
-                  ["Дизайн-проект", "#design"],
-                  ["Ремонт по готовому проекту", "#formats"],
-                  ["Калькулятор стоимости", "#calc"],
-                ].map(([l, h]) => (
-                  <li key={l}>
-                    <a href={h} className="text-white/75 text-[14px] hover:text-white transition-colors">{l}</a>
-                  </li>
-                ))}
-              </ul>
+              <Logo color="white" variant="full" width={160} />
+              <p className="mt-4 text-white/65 text-[14px] max-w-[280px]">Ремонт квартир под ключ в Красноярске с 2012 года.</p>
             </div>
-            <div>
-              <h4 className="text-white text-[16px] font-medium mb-4">О компании</h4>
-              <ul className="space-y-2">
-                {[
-                  ["Как мы работаем", "#process"],
-                  ["Объекты", "#cases"],
-                  ["Предложения", "#offers"],
-                  ["Вопросы и ответы", "#faq"],
-                ].map(([l, h]) => (
-                  <li key={l}>
-                    <a href={h} className="text-white/75 text-[14px] hover:text-white transition-colors">{l}</a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-white text-[16px] font-medium mb-4">Контакты</h4>
-              <ul className="space-y-3 text-[14px]">
-                <li>
-                  <a href={SITE.phoneHref} className="flex items-center gap-2 text-white hover:text-cognac transition-colors font-semibold text-[15px]">
-                    <Phone className="h-4 w-4 text-cognac" /> {SITE.phone}
+            <ul className="flex flex-col gap-3 text-[14px]">
+              <li>
+                <a href={SITE.phoneHref} className="flex items-center gap-2 text-white font-semibold hover:text-cognac">
+                  <Phone className="h-4 w-4 text-cognac" /> {SITE.phone}
+                </a>
+              </li>
+              <li>
+                <a href={`mailto:${SITE.email}`} className="flex items-center gap-2 text-white/75 hover:text-white">
+                  <Mail className="h-4 w-4 text-cognac" /> {SITE.email}
+                </a>
+              </li>
+              <li className="flex items-start gap-2 text-white/75">
+                <MapPin className="h-4 w-4 text-cognac mt-0.5 shrink-0" /> {SITE.address}
+              </li>
+            </ul>
+            <ul className="flex flex-col gap-2 text-[14px]">
+              {[
+                ["Объекты и цены", "#cases"],
+                ["Калькулятор", "#calc"],
+                ["Преимущества", "#advantages"],
+                ["Отзывы", "#reviews"],
+                ["Этапы работы", "#process"],
+              ].map(([l, h]) => (
+                <li key={h}>
+                  <a href={h} className="text-white/75 hover:text-white">
+                    {l}
                   </a>
                 </li>
-                <li>
-                  <a href={`mailto:${SITE.email}`} className="flex items-center gap-2 text-white/70 hover:text-white">
-                    <Mail className="h-4 w-4 text-cognac" /> {SITE.email}
-                  </a>
-                </li>
-                <li className="flex items-center gap-2 text-white/70">
-                  <MapPin className="h-4 w-4 text-cognac" /> {SITE.address}
-                </li>
-              </ul>
-            </div>
+              ))}
+            </ul>
           </div>
-          <div className="mt-8 pt-5 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-            <span className="text-white/60 text-[12px]">© 2012–{year} ООО «СЕАЛ ПРОЕКТ» · {SITE.domain}</span>
-            <div className="flex items-center gap-3">
-              <span className="text-white/60 text-[12px]">Напишите нам:</span>
-              <a href={SITE.whatsapp} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors">
-                <MessageCircle className="h-4 w-4 text-white" />
-              </a>
-              <a href={SITE.phoneHref} aria-label="Позвонить" className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-white/10 transition-colors">
-                <Phone className="h-4 w-4 text-white" />
-              </a>
-            </div>
-          </div>
-        </motion.div>
+          <p className="mt-6 text-[12px] text-white/55">© 2012–{year} ООО «СЕАЛ ПРОЕКТ» · {SITE.domain}</p>
+        </div>
       </div>
     </section>
   );

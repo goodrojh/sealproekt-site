@@ -40,18 +40,11 @@ export default function MobileBar() {
           </a>
           <button
             onClick={() =>
-              open({
-                offer: "calc",
-                source: "Мобильная панель — Рассчитать",
-                title: "Рассчитаем стоимость ремонта",
-                subtitle: "Ответьте на 3 вопроса — подготовим предварительный расчёт.",
-                cta: "Получить расчёт",
-                image: "/img/w87.jpg",
-              })
+              open({ source: "Мобильная панель" })
             }
             className="flex-1 rounded-full bg-cognac text-white text-[16px] font-semibold"
           >
-            Рассчитать стоимость
+            Получить расчёт
           </button>
         </motion.div>
       )}

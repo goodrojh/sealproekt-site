@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, X } from "lucide-react";
 import { img } from "@/lib/site";
-import { workSrc } from "@/lib/works";
 
 // Полноэкранный просмотр фото: стрелки, свайп, клавиатура, лента миниатюр.
 export default function Lightbox({
@@ -13,7 +12,7 @@ export default function Lightbox({
   onClose,
   footer,
 }: {
-  photos: number[];
+  photos: string[]; // пути вида /img/xxx.jpg
   start?: number;
   title?: string;
   onClose: () => void;
@@ -77,7 +76,7 @@ export default function Lightbox({
           touchX.current = null;
         }}
       >
-        <img key={photos[i]} {...img(workSrc(photos[i]), { eager: true, sizes: "100vw" })} alt={`${title || "Фото"} — ${i + 1}`} className="max-h-full max-w-full object-contain rounded-xl select-none" draggable={false} />
+        <img key={photos[i]} {...img(photos[i], { eager: true, sizes: "100vw" })} alt={`${title || "Фото"} — ${i + 1}`} className="max-h-full max-w-full object-contain rounded-xl select-none" draggable={false} />
         {n > 1 && (
           <>
             <button onClick={() => go(-1)} aria-label="Предыдущее фото" className="hidden md:flex absolute left-5 top-1/2 -translate-y-1/2 h-12 w-12 rounded-full bg-white text-navy items-center justify-center hover:bg-cognac hover:text-white transition-colors">
@@ -100,7 +99,7 @@ export default function Lightbox({
               aria-label={`Фото ${k + 1}`}
               className={"shrink-0 h-14 w-14 md:h-16 md:w-16 rounded-lg overflow-hidden border-2 transition-opacity " + (k === i ? "border-cognac opacity-100" : "border-transparent opacity-50 hover:opacity-90")}
             >
-              <img {...img(workSrc(p), { sizes: "64px" })} alt="" className="h-full w-full object-cover" />
+              <img {...img(p, { sizes: "64px" })} alt="" className="h-full w-full object-cover" />
             </button>
           ))}
         </div>
