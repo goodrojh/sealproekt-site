@@ -85,3 +85,15 @@ export const OFFERS: Record<OfferId, { label: string; cta: string; result: strin
 export const PROMO_IDS: OfferId[] = ["sink", "design-gift", "early5"];
 
 export const fmt = (n: number) => n.toLocaleString("ru-RU").replace(/\s/g, " ");
+
+// Реквизиты оператора персональных данных — для документов и подвала.
+// ОГРН — с сайта sealproekt.ru. ИНН и юридический адрес — запросить у заказчика (пустые поля не выводятся).
+export const LEGAL = {
+  company: "ООО «СЕАЛ ПРОЕКТ»",
+  ogrn: "1132468054960",
+  inn: "",
+  legalAddress: "",
+  officeAddress: "г. Красноярск, ул. Октябрьская, 10, офис 206",
+  email: "mail@sealproekt.ru",
+  policyDate: "15 октября 2026 г.",
+};

@@ -8,7 +8,7 @@ import { CTA_MAIN, OFFERS, SITE, img } from "@/lib/site";
 
 const NAV = [
   { label: "Объекты", href: "#cases" },
-  { label: "Стоимость", href: "#calc" },
+  { label: "Расчёт", href: "#form" },
   { label: "Преимущества", href: "#advantages" },
   { label: "Отзывы", href: "#reviews" },
   { label: "Этапы", href: "#process" },
@@ -153,16 +153,15 @@ export default function Hero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-12 md:mt-16 grid grid-cols-2 md:grid-cols-4 rounded-[24px] border border-white/15 bg-ink/50 md:bg-white/[0.06] md:backdrop-blur-md overflow-hidden"
+          className="mt-12 md:mt-16 grid grid-cols-3 rounded-[24px] border border-white/15 bg-ink/50 md:bg-white/[0.06] md:backdrop-blur-md overflow-hidden"
         >
           {[
             { v: "с 2012", l: "ремонтируем квартиры в Красноярске" },
             { v: <span className="inline-flex items-center gap-1.5">{SITE.rating2gis.value}<Star className="h-6 w-6 fill-cognac text-cognac" /></span>, l: `рейтинг в 2ГИС, ${SITE.rating2gis.votes} оценок` },
             { v: SITE.objects, l: "реализованных объектов" },
-            { v: "±10%", l: "точность сметы" },
           ].map((f, i) => (
-            <div key={i} className={"px-5 py-5 md:py-6 border-white/10 " + (i % 2 === 0 ? "border-r " : "md:border-r ") + (i < 2 ? "border-b md:border-b-0 " : "") + (i === 3 ? "md:border-r-0" : "")}>
-              <div className="text-[26px] md:text-[32px] font-extrabold text-white leading-none">{f.v}</div>
+            <div key={i} className={"px-3 sm:px-5 py-5 md:py-6 border-white/10 " + (i < 2 ? "border-r" : "")}>
+              <div className="text-[22px] sm:text-[26px] md:text-[32px] font-extrabold text-white leading-none">{f.v}</div>
               <div className="mt-2 text-[12px] md:text-[14px] text-white/70 leading-snug">{f.l}</div>
             </div>
           ))}

@@ -4,18 +4,17 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Car, ExternalLink, Eye, MessagesSquare, Play, Quote, Star, X } from "lucide-react";
 import SectionHeader from "@/components/SectionHeader";
 import { useLead } from "@/components/lead/LeadModal";
-import { SITE, asset, img } from "@/lib/site";
+import { SITE, asset, img, imgUrl } from "@/lib/site";
 import { track } from "@/lib/analytics";
 
-// Видеоотзывы из Telegram-канала заказчика (ссылки прислал маркетолог).
-// Telegram не проигрывает эти ролики во встроенном окне («Media is too big»), поэтому по клику открывается пост.
-// Если положить mp4 в public/video/review-<id>.mp4 и указать file, видео будет играть прямо на сайте.
+// Видеоотзывы из Telegram-канала заказчика: файлы прислал заказчик, видео играет прямо на сайте.
+// id — номер поста в t.me/sealproekt (ссылка остаётся запасной, если JS отключён).
 const VIDEOS: { id: number; dur: string; t: string; file?: string }[] = [
-  { id: 133, dur: "1:24", t: "«Ремонт без сюрпризов»: семья о ремонте новой квартиры" },
-  { id: 520, dur: "0:56", t: "Исправили ошибки прошлых подрядчиков" },
-  { id: 743, dur: "1:23", t: "Санузел, с которого хозяйка начала обустройство квартиры" },
-  { id: 579, dur: "1:05", t: "Заказчик о ремонте в согласованные сроки" },
-  { id: 460, dur: "0:59", t: "Интервью с заказчиком" },
+  { id: 133, dur: "1:24", t: "«Ремонт без сюрпризов»: семья о ремонте новой квартиры", file: "/video/review-133.mp4" },
+  { id: 520, dur: "0:56", t: "Исправили ошибки прошлых подрядчиков", file: "/video/review-520.mp4" },
+  { id: 743, dur: "1:24", t: "Санузел, с которого хозяйка начала обустройство квартиры", file: "/video/review-743.mp4" },
+  { id: 579, dur: "1:06", t: "Заказчик о ремонте в согласованные сроки", file: "/video/review-579.mp4" },
+  { id: 460, dur: "0:59", t: "Интервью с заказчиком", file: "/video/review-460.mp4" },
 ];
 
 // Текстовые отзывы — с текущего сайта заказчика sealproekt-remont.ru
@@ -34,7 +33,7 @@ const TEXTS = [
   },
 ];
 
-function VideoModal({ file, onClose }: { file: string; onClose: () => void }) {
+function VideoModal({ file, poster, onClose }: { file: string; poster: string; onClose: () => void }) {
   useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -47,8 +46,8 @@ function VideoModal({ file, onClose }: { file: string; onClose: () => void }) {
   }, [onClose]);
   return (
     <motion.div className="fixed inset-0 z-[110] bg-ink/90 flex items-center justify-center p-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} role="dialog" aria-modal="true" aria-label="Видеоотзыв">
-      <div className="relative w-full max-w-[420px] h-[min(760px,88vh)] rounded-[24px] overflow-hidden bg-white" onClick={(e) => e.stopPropagation()}>
-        <video src={asset(file)} controls autoPlay playsInline className="w-full h-full object-contain bg-ink" />
+      <div className="relative w-full max-w-[420px] h-[min(760px,88vh)] rounded-[24px] overflow-hidden bg-ink" onClick={(e) => e.stopPropagation()}>
+        <video src={asset(file)} poster={poster} controls autoPlay playsInline preload="auto" className="w-full h-full object-contain bg-ink" />
       </div>
       <button onClick={onClose} aria-label="Закрыть" className="absolute top-4 right-4 h-11 w-11 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center">
         <X className="h-5 w-5" />
@@ -59,7 +58,7 @@ function VideoModal({ file, onClose }: { file: string; onClose: () => void }) {
 
 export default function TourReviews() {
   const { open } = useLead();
-  const [video, setVideo] = useState<string | null>(null);
+  const [video, setVideo] = useState<{ file: string; poster: string } | null>(null);
 
   return (
     <section id="reviews" className="w-full bg-white">
@@ -74,7 +73,7 @@ export default function TourReviews() {
                 Посмотрите объект в работе <span className="text-cognac">ещё до договора</span>
               </h2>
               <p className="mt-5 t-lead text-white/85 max-w-xl">
-                Организуем экскурсию на любой объект в работе: покажем процесс изнутри и дадим обсудить решения с действующим проектным менеджером. Можно встретиться и на готовом объекте, чтобы оценить качество вживую.
+                Организуем экскурсию на любой объект в работе и покажем процесс изнутри. Можно встретиться и на готовом объекте, чтобы оценить качество вживую.
               </p>
               <button
                 onClick={() =>
@@ -97,7 +96,7 @@ export default function TourReviews() {
               {[
                 { i: Car, t: "Трансфер", d: "При необходимости обеспечим трансфер до объекта." },
                 { i: Eye, t: "Процесс изнутри", d: "Покажем, как идут работы на действующем объекте." },
-                { i: MessagesSquare, t: "Разговор с действующим ПМ", d: "Обсудите решения с менеджером, который ведёт объект." },
+                { i: MessagesSquare, t: "Ответы на вопросы на месте", d: "Обсудите решения с тем, кто ведёт этот объект." },
               ].map((x) => (
                 <div key={x.t} className="flex gap-4 items-start rounded-[22px] bg-ink/55 border border-white/20 p-5">
                   <div className="h-11 w-11 shrink-0 rounded-2xl bg-cognac flex items-center justify-center">
@@ -118,7 +117,7 @@ export default function TourReviews() {
       <div className="max-w-6xl mx-auto px-5 md:px-8 py-24 md:py-28">
         <SectionHeader
           title="Отзывы наших клиентов"
-          lead="Видеоотзывы заказчиков (открываются в Telegram) и оценки на независимых площадках."
+          lead="Видеоотзывы наших заказчиков и оценки на независимых площадках."
           action={
             <a
               href={SITE.rating2gis.url}
@@ -154,14 +153,14 @@ export default function TourReviews() {
                 track("review_play", { video: v.id });
                 if (v.file) {
                   e.preventDefault();
-                  setVideo(v.file);
+                  setVideo({ file: v.file, poster: imgUrl(`/img/rvp${v.id}.jpg`, 540) });
                 }
               }}
               className="group shrink-0 w-[200px] md:w-auto text-left"
               aria-label={`Смотреть видеоотзыв: ${v.t}`}
             >
               <div className="relative aspect-[9/16] rounded-[22px] overflow-hidden bg-ink">
-                <img {...img(`/img/rv${v.id}.jpg`, { sizes: "220px" })} alt="" className="absolute inset-0 w-full h-full object-cover opacity-90 md:group-hover:scale-105 transition-transform duration-700" />
+                <img {...img(`/img/rvp${v.id}.jpg`, { sizes: "220px" })} alt="" className="absolute inset-0 w-full h-full object-cover opacity-90 md:group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
                 <span className="absolute inset-0 flex items-center justify-center">
                   <span className="h-14 w-14 rounded-full bg-white/90 flex items-center justify-center group-hover:bg-cognac group-hover:text-white text-navy transition-colors">
@@ -205,7 +204,7 @@ export default function TourReviews() {
         </div>
       </div>
 
-      <AnimatePresence>{video !== null && <VideoModal file={video} onClose={() => setVideo(null)} />}</AnimatePresence>
+      <AnimatePresence>{video !== null && <VideoModal file={video.file} poster={video.poster} onClose={() => setVideo(null)} />}</AnimatePresence>
     </section>
   );
 }
