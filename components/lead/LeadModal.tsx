@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { AlertCircle, ArrowRight, Check, ChevronDown, Gift, X } from "lucide-react";
 import { CTA_MAIN, OFFERS, OfferId, PROMO_IDS, SITE, asset, img } from "@/lib/site";
 import { track } from "@/lib/analytics";
+import { captureUtm, sendLead } from "@/lib/leads";
 
 export type LeadConfig = {
   offer?: OfferId;
@@ -96,7 +97,6 @@ export function LeadForm({ config, onClose, inline = false }: { config: LeadConf
       contact: contactLabel,
       note: config.preset?.note || "",
       page: typeof window !== "undefined" ? window.location.href : "",
-      createdAt: new Date().toISOString(),
     }),
     [offer, config, objectType, area, start, tour, name, phone, contactLabel]
   );
@@ -126,16 +126,7 @@ export function LeadForm({ config, onClose, inline = false }: { config: LeadConf
 
     setStatus("sending");
     try {
-      const ctrl = new AbortController();
-      const t = setTimeout(() => ctrl.abort(), 12000);
-      const res = await fetch(SITE.leadEndpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        signal: ctrl.signal,
-      });
-      clearTimeout(t);
-      if (!res.ok) throw new Error(String(res.status));
+      await sendLead(SITE.leadEndpoint, payload);
       track("lead_submit", { source: config.source, offer });
       setStatus("done");
     } catch {
@@ -277,12 +268,11 @@ export function LeadForm({ config, onClose, inline = false }: { config: LeadConf
               disabled={status === "sending"}
               className="group w-full flex items-center justify-between rounded-full bg-cognac text-white p-1.5 pl-6 hover:brightness-105 transition disabled:opacity-60"
             >
-              <span className="text-[16px] font-semibold text-left">{status === "sending" ? "Отправляем…" : SITE.leadEndpoint ? CTA_MAIN : "Отправить заявку в WhatsApp"}</span>
+              <span className="text-[16px] font-semibold text-left">{status === "sending" ? "Отправляем…" : "Отправить заявку"}</span>
               <span className="h-11 w-11 shrink-0 rounded-full bg-navy flex items-center justify-center">
                 <ArrowRight className="h-5 w-5" />
               </span>
             </button>
-            {!SITE.leadEndpoint && <p className="-mt-2 text-[12px] text-navy/55">Откроется WhatsApp с заполненной заявкой — останется нажать «Отправить».</p>}
           </div>
         </>
       ) : status === "error" ? (
@@ -369,6 +359,7 @@ export function LeadProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Рекламная связка: ?offer=sink | design-gift | early5 — все формы на странице ведут на этот оффер
+    captureUtm();
     const p = new URLSearchParams(window.location.search).get("offer") as OfferId | null;
     if (p && PROMO_IDS.includes(p)) setPromo(p);
   }, []);

@@ -66,7 +66,17 @@ export default function Hero() {
           </a>
           <div className="hidden lg:flex items-center gap-6 xl:gap-8 whitespace-nowrap">
             {NAV.map((item) => (
-              <a key={item.href} href={item.href} className="text-[15px] font-medium text-white/75 hover:text-white transition-colors relative group">
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={(e) => {
+                  if (item.href === "#form") {
+                    e.preventDefault();
+                    open({ source: "Меню — Расчёт" });
+                  }
+                }}
+                className="text-[15px] font-medium text-white/75 hover:text-white transition-colors relative group"
+              >
                 {item.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-cognac transition-all group-hover:w-full" />
               </a>
@@ -100,7 +110,18 @@ export default function Hero() {
             </div>
             <div className="flex-1 flex flex-col justify-center gap-6">
               {NAV.map((item) => (
-                <a key={item.href} href={item.href} onClick={() => setMenu(false)} className="t-section text-white">
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={(e) => {
+                    setMenu(false);
+                    if (item.href === "#form") {
+                      e.preventDefault();
+                      open({ source: "Мобильное меню — Расчёт" });
+                    }
+                  }}
+                  className="t-section text-white"
+                >
                   {item.label}
                 </a>
               ))}

@@ -1,11 +1,13 @@
 "use client";
 import React from "react";
-import { ArrowUp, Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react";
+import { ArrowRight, Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react";
+import { useLead } from "@/components/lead/LeadModal";
 import Logo from "@/components/Logo";
 import { CTA_MAIN, LEGAL, SITE, asset, imgUrl } from "@/lib/site";
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const { open } = useLead();
   const legal = [LEGAL.company, LEGAL.inn && `ИНН ${LEGAL.inn}`, LEGAL.ogrn && `ОГРН ${LEGAL.ogrn}`, LEGAL.legalAddress].filter(Boolean).join(" · ");
 
   return (
@@ -14,16 +16,19 @@ export default function Footer() {
         <div className="absolute inset-0" style={{ backgroundImage: `url('${imgUrl("/img/cd00.jpg", 1280)}')`, backgroundSize: "cover", backgroundPosition: "center" }} />
         <div className="absolute inset-0 bg-ink/85" />
 
-        {/* Короткий призыв — ведёт к той же форме расчёта (#form) */}
+        {/* Короткий призыв — открывает форму расчёта во всплывающем окне */}
         <div className="relative max-w-6xl mx-auto px-5 md:px-8 pt-20 md:pt-28 pb-16 flex flex-col items-center text-center">
           <h2 className="t-h1 text-white max-w-3xl">Ремонт — наша работа. Не ваша.</h2>
           <p className="mt-5 t-lead text-white/80 max-w-xl">Узнайте, сколько будет стоить ремонт вашей квартиры.</p>
-          <a href="#form" className="group mt-8 inline-flex w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-cognac text-white p-1.5 pl-7 text-[16px] font-semibold hover:brightness-105 transition">
+          <button
+            onClick={() => open({ source: "Финальный призыв", image: "/img/cd00.jpg" })}
+            className="group mt-8 inline-flex w-full sm:w-auto items-center justify-between gap-4 rounded-full bg-cognac text-white p-1.5 pl-7 text-[16px] font-semibold hover:brightness-105 transition"
+          >
             <span className="text-left">{CTA_MAIN}</span>
             <span className="h-12 w-12 shrink-0 rounded-full bg-white/20 flex items-center justify-center">
-              <ArrowUp className="h-5 w-5" />
+              <ArrowRight className="h-5 w-5" />
             </span>
-          </a>
+          </button>
         </div>
 
         <div className="relative max-w-6xl mx-auto px-5 md:px-8 pb-8">
