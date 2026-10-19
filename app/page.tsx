@@ -10,6 +10,7 @@ import TourReviews from "@/components/sections/TourReviews";
 import Process from "@/components/sections/Process";
 import Footer from "@/components/sections/Footer";
 import MobileBar from "@/components/MobileBar";
+import FloatingMessengers from "@/components/Messengers";
 
 // Оффер → примеры с ценами → форма расчёта → преимущества → экскурсия и отзывы → этапы → короткий призыв к форме
 export default function Home() {
@@ -25,6 +26,7 @@ export default function Home() {
           <Process />
           <Footer />
         </main>
+        <FloatingMessengers />
         <MobileBar />
         <Analytics />
       </LeadProvider>

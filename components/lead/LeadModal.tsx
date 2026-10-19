@@ -25,6 +25,7 @@ const CONTACTS = [
   { id: "call", label: "Звонок" },
   { id: "whatsapp", label: "WhatsApp" },
   { id: "telegram", label: "Telegram" },
+  { id: "max", label: "MAX" },
 ];
 
 function maskPhone(v: string) {

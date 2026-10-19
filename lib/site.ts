@@ -37,7 +37,9 @@ export const SITE = {
   phone: "+7 (960) 772-15-70",
   phoneHref: "tel:+79607721570",
   whatsapp: "https://wa.me/79607721570",
-  telegram: "https://t.me/sealproekt",
+  telegram: "https://t.me/PSK_Seal_Proekt", // написать менеджеру (1 ПСК Сеал Проект, +7 960 772-15-70)
+  telegramChannel: "https://t.me/sealproekt", // канал компании
+  max: "https://max.ru/u/f9LHodD0cOKtMA4fzs33wB5y6gv0-jxnk6XDEAnjomBoJa4S-PnQO-wPP88",
   email: "mail@sealproekt.ru",
   address: "г. Красноярск, ул. Октябрьская, 10, офис 206 (цокольный этаж)",
   founded: 2012,

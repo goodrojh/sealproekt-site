@@ -198,8 +198,8 @@ export default function TourReviews() {
           <a href={SITE.yandexReviews} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-navy/15 px-6 py-3 text-[14px] font-semibold text-navy hover:bg-paper">
             Отзывы на Яндекс Картах <ExternalLink className="h-4 w-4" />
           </a>
-          <a href={SITE.telegram} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-navy/15 px-6 py-3 text-[14px] font-semibold text-navy hover:bg-paper">
-            Больше видео в Telegram <ExternalLink className="h-4 w-4" />
+          <a href={SITE.telegramChannel} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-navy/15 px-6 py-3 text-[14px] font-semibold text-navy hover:bg-paper">
+            Больше видео в нашем Telegram-канале <ExternalLink className="h-4 w-4" />
           </a>
         </div>
       </div>

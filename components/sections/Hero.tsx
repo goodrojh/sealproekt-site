@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Check, Menu, Phone, Star, X } from "lucide-react";
+import { Check, Menu, Phone, Star, X } from "lucide-react";
 import Logo from "@/components/Logo";
-import { useLead } from "@/components/lead/LeadModal";
+import { LeadForm, useLead } from "@/components/lead/LeadModal";
 import { CTA_MAIN, OFFERS, SITE, img } from "@/lib/site";
 
 const NAV = [
@@ -41,12 +41,6 @@ export default function Hero() {
     document.body.style.overflow = menu ? "hidden" : "";
   }, [menu]);
 
-  const cta = () =>
-    open({
-      source: "Первый экран",
-      subtitle: "Ответьте на несколько вопросов — подготовим предварительный расчёт и согласуем замер.",
-      image: "/img/cb00.jpg",
-    });
 
   return (
     <section className="min-h-[100svh] flex flex-col bg-ink relative w-full overflow-hidden">
@@ -142,50 +136,60 @@ export default function Hero() {
         )}
       </AnimatePresence>
 
-      <div id="top" className="relative z-10 flex-1 flex flex-col justify-center max-w-6xl w-full mx-auto px-5 md:px-8 pt-[120px] md:pt-[150px] pb-10">
-        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="t-h1 text-white max-w-3xl">
-          Ремонт квартир под ключ в Красноярске <span className="text-cognac whitespace-nowrap">от 20 000 ₽/м²</span>
-        </motion.h1>
+      <div id="top" className="relative z-10 flex-1 max-w-6xl w-full mx-auto px-5 md:px-8 pt-[110px] md:pt-[140px] pb-12 grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-8 lg:gap-12 items-center">
+        <div className="min-w-0">
+          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="t-h1 text-white">
+            Ремонт квартир под ключ в Красноярске <span className="text-cognac whitespace-nowrap">от 20 000 ₽/м²</span>
+          </motion.h1>
 
-        <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} className="mt-6 t-lead text-white/90 max-w-[620px]">
-          Полностью берём на себя управление ремонтом — вам не придётся самостоятельно контролировать рабочих, закупки и сроки. Разработаем дизайн-проект и реализуем его или выполним ремонт по вашему проекту.
-        </motion.p>
+          <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} className="mt-6 t-lead text-white/90 max-w-[560px]">
+            Полностью берём на себя управление ремонтом — вам не придётся самостоятельно контролировать рабочих, закупки и сроки. Разработаем дизайн-проект и реализуем его или выполним ремонт по вашему проекту.
+          </motion.p>
 
-        <motion.ul initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.18 }} className="mt-6 flex flex-wrap gap-2">
-          {TAKE_OVER.map((t) => (
-            <li key={t} className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-4 py-2 text-[14px] font-medium text-white">
-              <Check className="h-4 w-4 text-cognac" strokeWidth={3} />
-              {t} — на нас
-            </li>
-          ))}
-        </motion.ul>
+          <motion.ul initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.18 }} className="mt-6 flex flex-wrap gap-2">
+            {TAKE_OVER.map((t) => (
+              <li key={t} className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-4 py-2 text-[14px] font-medium text-white">
+                <Check className="h-4 w-4 text-cognac" strokeWidth={3} />
+                {t} — на нас
+              </li>
+            ))}
+          </motion.ul>
 
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.26 }} className="mt-9 flex flex-col sm:flex-row sm:items-center gap-4">
-          <button onClick={cta} className="group w-full sm:w-auto flex items-center justify-between gap-4 rounded-full bg-cognac text-white p-1.5 pl-7 text-[16px] font-semibold shadow-xl shadow-ink/30 hover:brightness-105 active:scale-[0.98] transition">
-            <span className="text-left">{promo ? OFFERS[promo].cta : CTA_MAIN}</span>
-            <span className="h-12 w-12 shrink-0 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-cognac transition-colors">
-              <ArrowRight className="h-5 w-5" />
-            </span>
-          </button>
-          <span className="text-[14px] text-white/75">Смета — в течение 24 часов после замера</span>
-        </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mt-8 md:mt-10 grid grid-cols-3 rounded-[24px] border border-white/15 bg-ink/50 md:bg-white/[0.06] md:backdrop-blur-md overflow-hidden max-w-[560px]"
+          >
+            {[
+              { v: "с 2012", l: "ремонтируем квартиры в Красноярске" },
+              { v: <span className="inline-flex items-center gap-1.5">{SITE.rating2gis.value}<Star className="h-5 w-5 md:h-6 md:w-6 fill-cognac text-cognac" /></span>, l: `рейтинг в 2ГИС, ${SITE.rating2gis.votes} оценок` },
+              { v: SITE.objects, l: "реализованных объектов" },
+            ].map((f, i) => (
+              <div key={i} className={"px-3 sm:px-5 py-4 md:py-5 border-white/10 " + (i < 2 ? "border-r" : "")}>
+                <div className="text-[22px] sm:text-[26px] md:text-[28px] font-extrabold text-white leading-none">{f.v}</div>
+                <div className="mt-2 text-[12px] md:text-[13px] text-white/70 leading-snug">{f.l}</div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
 
+        {/* Открытая форма заявки на первом экране */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-12 md:mt-16 grid grid-cols-3 rounded-[24px] border border-white/15 bg-ink/50 md:bg-white/[0.06] md:backdrop-blur-md overflow-hidden"
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="rounded-[28px] bg-white p-6 md:p-8 shadow-2xl shadow-ink/40"
         >
-          {[
-            { v: "с 2012", l: "ремонтируем квартиры в Красноярске" },
-            { v: <span className="inline-flex items-center gap-1.5">{SITE.rating2gis.value}<Star className="h-6 w-6 fill-cognac text-cognac" /></span>, l: `рейтинг в 2ГИС, ${SITE.rating2gis.votes} оценок` },
-            { v: SITE.objects, l: "реализованных объектов" },
-          ].map((f, i) => (
-            <div key={i} className={"px-3 sm:px-5 py-5 md:py-6 border-white/10 " + (i < 2 ? "border-r" : "")}>
-              <div className="text-[22px] sm:text-[26px] md:text-[32px] font-extrabold text-white leading-none">{f.v}</div>
-              <div className="mt-2 text-[12px] md:text-[14px] text-white/70 leading-snug">{f.l}</div>
-            </div>
-          ))}
+          <LeadForm
+            inline
+            config={{
+              source: "Первый экран (форма)",
+              offer: promo || "calc",
+              title: promo ? OFFERS[promo].cta : CTA_MAIN,
+              subtitle: "Смета — в течение 24 часов после замера",
+            }}
+          />
         </motion.div>
       </div>
     </section>

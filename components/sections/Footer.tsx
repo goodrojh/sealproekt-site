@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
-import { ArrowRight, Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react";
+import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
+import { MessengerLinks } from "@/components/Messengers";
 import { useLead } from "@/components/lead/LeadModal";
 import Logo from "@/components/Logo";
 import { CTA_MAIN, LEGAL, SITE, asset, imgUrl } from "@/lib/site";
@@ -32,7 +33,7 @@ export default function Footer() {
         </div>
 
         <div className="relative max-w-6xl mx-auto px-5 md:px-8 pb-8">
-          <div className="rounded-[24px] border border-white/15 bg-white/5 p-6 md:p-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="rounded-[24px] border border-white/15 bg-white/5 p-6 md:p-8 grid grid-cols-1 md:grid-cols-[1fr_1.4fr_1fr] gap-8">
             <div>
               <Logo color="white" variant="full" width={160} />
               <p className="mt-4 text-white/65 text-[14px] max-w-[280px]">Ремонт квартир под ключ в Красноярске с 2012 года.</p>
@@ -43,12 +44,12 @@ export default function Footer() {
                   <Phone className="h-4 w-4 text-cognac" /> {SITE.phone}
                 </a>
               </li>
-              <li className="flex gap-3">
-                <a href={SITE.whatsapp} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/75 hover:text-white">
-                  <MessageCircle className="h-4 w-4 text-cognac" /> WhatsApp
-                </a>
-                <a href={SITE.telegram} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/75 hover:text-white">
-                  <Send className="h-4 w-4 text-cognac" /> Telegram
+              <li>
+                <MessengerLinks dark size={40} />
+              </li>
+              <li>
+                <a href={SITE.telegramChannel} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-white/75 hover:text-white">
+                  <img src={asset("/brand/telegram.svg")} alt="" width={16} height={16} className="h-4 w-4" /> Наш канал в Telegram — подписаться
                 </a>
               </li>
               <li>

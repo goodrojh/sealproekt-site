@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
-import { MessageCircle, Phone, Send } from "lucide-react";
+import { Phone } from "lucide-react";
+import { MessengerLinks } from "@/components/Messengers";
 import { LeadForm, useLead } from "@/components/lead/LeadModal";
 import { SITE, img } from "@/lib/site";
 
 // Форма расчёта на странице — сразу после примеров ремонтов (правка заказчика, п. 2).
-// Кнопка в конце сайта ведёт сюда же (#form).
 export default function LeadSection() {
   const { promo } = useLead();
   return (
@@ -25,14 +25,7 @@ export default function LeadSection() {
             <a href={SITE.phoneHref} className="inline-flex items-center gap-3 text-[22px] font-bold text-white hover:text-cognac transition-colors w-fit">
               <Phone className="h-5 w-5 text-cognac" /> {SITE.phone}
             </a>
-            <div className="flex gap-2">
-              <a href={SITE.whatsapp} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-white/25 px-4 py-2 text-[14px] font-semibold text-white hover:bg-white/10">
-                <MessageCircle className="h-4 w-4" /> WhatsApp
-              </a>
-              <a href={SITE.telegram} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-white/25 px-4 py-2 text-[14px] font-semibold text-white hover:bg-white/10">
-                <Send className="h-4 w-4" /> Telegram
-              </a>
-            </div>
+            <MessengerLinks dark />
           </div>
         </div>
 

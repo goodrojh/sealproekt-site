@@ -38,6 +38,7 @@ export default function Analytics() {
       if (href.startsWith("tel:")) track("click_phone");
       else if (href.includes("wa.me")) track("click_whatsapp");
       else if (href.includes("t.me")) track("click_telegram");
+      else if (href.includes("max.ru")) track("click_max");
     };
     document.addEventListener("click", onClick, { capture: true });
     return () => document.removeEventListener("click", onClick, { capture: true });

@@ -7,6 +7,7 @@
 //   click_phone      — нажатие на номер телефона
 //   click_whatsapp   — переход в WhatsApp
 //   click_telegram   — переход в Telegram
+//   click_max        — переход в MAX
 //   calc_change      — клиент пользовался калькулятором
 //   case_open        — открыт кейс / галерея
 //   review_play      — запущен видеоотзыв
