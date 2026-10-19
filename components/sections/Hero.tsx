@@ -136,7 +136,7 @@ export default function Hero() {
         )}
       </AnimatePresence>
 
-      <div id="top" className="relative z-10 flex-1 max-w-6xl w-full mx-auto px-5 md:px-8 pt-[110px] md:pt-[140px] pb-12 grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-8 lg:gap-12 items-center">
+      <div id="top" className="relative z-10 flex-1 max-w-6xl w-full mx-auto px-5 md:px-8 pt-[104px] md:pt-[120px] pb-12 grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-8 lg:gap-12 items-start">
         <div className="min-w-0">
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }} className="t-h1 text-white">
             Ремонт квартир под ключ в Красноярске <span className="text-cognac whitespace-nowrap">от 20 000 ₽/м²</span>
@@ -179,7 +179,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="rounded-[28px] bg-white p-6 md:p-8 shadow-2xl shadow-ink/40"
+          className="rounded-[28px] bg-white p-6 md:p-7 shadow-2xl shadow-ink/40 lg:mt-2"
         >
           <LeadForm
             inline

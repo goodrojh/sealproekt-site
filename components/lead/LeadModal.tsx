@@ -153,10 +153,10 @@ export function LeadForm({ config, onClose, inline = false, simple = false }: { 
 
       {status === "form" || status === "sending" ? (
         <>
-          {config.title && <h3 className="t-h2 text-navy pr-10">{config.title}</h3>}
-          {config.subtitle && <p className="mt-2 text-[16px] text-navy/65 leading-[1.6]">{config.subtitle}</p>}
+          {config.title && <h3 className={(simple ? "t-h3" : "t-h2") + " text-navy pr-10"}>{config.title}</h3>}
+          {config.subtitle && <p className={(simple ? "mt-1.5 text-[14px]" : "mt-2 text-[16px]") + " text-navy/65 leading-[1.6]"}>{config.subtitle}</p>}
 
-          <div className="mt-6 flex flex-col gap-5">
+          <div className={(simple ? "mt-5 gap-4" : "mt-6 gap-5") + " flex flex-col"}>
             {offer !== "calc" && (
               <div className="flex items-start gap-3 rounded-2xl bg-cognac/10 p-4 text-[14px] text-navy">
                 <Gift className="h-5 w-5 text-cognac shrink-0" />
@@ -218,7 +218,7 @@ export function LeadForm({ config, onClose, inline = false, simple = false }: { 
                 onChange={(e) => setComment(e.target.value.slice(0, 1000))}
                 placeholder="Комментарий — например, площадь, тип квартиры или ваш вопрос (необязательно)"
                 aria-label="Комментарий"
-                rows={3}
+                rows={2}
                 className="w-full rounded-2xl bg-paper border border-transparent focus:border-cognac focus:bg-white px-5 py-4 text-[16px] text-navy outline-none transition-colors resize-none leading-[1.5]"
               />
             )}
