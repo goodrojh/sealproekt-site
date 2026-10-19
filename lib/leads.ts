@@ -14,6 +14,7 @@ export type LeadPayload = {
   name: string;
   phone: string;
   contact: string;
+  comment: string;
   note: string;
   page: string;
 };
@@ -50,11 +51,12 @@ export function bitrixFields(p: LeadPayload) {
   const comments = [
     `Форма: ${p.source}`,
     `Предложение: ${p.offer}`,
-    `Тип недвижимости: ${p.objectType}`,
-    `Площадь: ${p.area} м²`,
-    `Когда начать: ${p.start}`,
-    `Экскурсия на объект: ${p.tour}`,
-    `Удобный способ связи: ${p.contact}`,
+    p.comment && `Комментарий клиента: ${p.comment}`,
+    p.objectType && `Тип недвижимости: ${p.objectType}`,
+    p.area > 0 && `Площадь: ${p.area} м²`,
+    p.start && `Когда начать: ${p.start}`,
+    p.tour && `Экскурсия на объект: ${p.tour}`,
+    p.contact && `Удобный способ связи: ${p.contact}`,
     p.note && `Примечание: ${p.note}`,
     `Страница: ${p.page}`,
   ]
@@ -68,7 +70,8 @@ export function bitrixFields(p: LeadPayload) {
     SOURCE_ID: fromYandexAds ? "1" : "WEBFORM", // «Яндекс - директ: сайт ремонт» / «Веб-сайт»
     SOURCE_DESCRIPTION: `Лендинг «Ремонт квартир под ключ» — ${p.source}`,
     COMMENTS: comments.replace(/\n/g, "<br>"),
-    UF_CRM_1776744278: p.area, // Площадь, м²
+    ...(p.area > 0 ? { UF_CRM_1776744278: p.area } : {}), // Площадь, м²
+    ...(p.comment ? { UF_CRM_VOPROS: p.comment } : {}), // Вопрос
     UF_CRM_1745307554870: p.source, // Заявка с формы
     UF_CRM_FORMNAME: p.source, // formname
     UF_CRM_1787727805: "Лендинг ремонт квартир", // Канал для сайта

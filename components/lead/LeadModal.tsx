@@ -59,12 +59,14 @@ type Status = "form" | "sending" | "done" | "whatsapp" | "error";
 
 // Форма заявки (один шаг): тип недвижимости, площадь, имя, телефон + необязательные вопросы.
 // Используется и во всплывающем окне, и встроенной в блок «Расчёт» на странице.
-export function LeadForm({ config, onClose, inline = false }: { config: LeadConfig; onClose?: () => void; inline?: boolean }) {
+// simple — короткий вариант для первого экрана: только имя, телефон и комментарий
+export function LeadForm({ config, onClose, inline = false, simple = false }: { config: LeadConfig; onClose?: () => void; inline?: boolean; simple?: boolean }) {
   const offer: OfferId = config.offer || "calc";
   const [objectType, setObjectType] = useState(config.preset?.objectType || OBJECT_TYPES[0]);
   const [area, setArea] = useState(config.preset?.area || 70);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [comment, setComment] = useState("");
   const [more, setMore] = useState(!!config.preset?.tour);
   const [start, setStart] = useState("");
   const [tour, setTour] = useState(!!config.preset?.tour);
@@ -89,23 +91,26 @@ export function LeadForm({ config, onClose, inline = false }: { config: LeadConf
     () => ({
       offer: OFFERS[offer].label,
       source: config.source,
-      objectType,
-      area,
-      start: start || "не указано",
-      tour: tour ? "Да" : "Нет",
+      objectType: simple ? "" : objectType,
+      area: simple ? 0 : area,
+      start: simple ? "" : start || "не указано",
+      tour: simple ? "" : tour ? "Да" : "Нет",
+      comment: comment.trim(),
       name,
       phone,
-      contact: contactLabel,
+      contact: simple ? "" : contactLabel,
       note: config.preset?.note || "",
       page: typeof window !== "undefined" ? window.location.href : "",
     }),
-    [offer, config, objectType, area, start, tour, name, phone, contactLabel]
+    [offer, config, simple, objectType, area, start, tour, comment, name, phone, contactLabel]
   );
 
   const waText = encodeURIComponent(
-    `Здравствуйте! Хочу получить расчёт стоимости ремонта.\n${offer !== "calc" ? `Предложение: ${OFFERS[offer].label}\n` : ""}Объект: ${objectType}, ${area} м²` +
+    `Здравствуйте! Хочу получить расчёт стоимости ремонта.\n${offer !== "calc" ? `Предложение: ${OFFERS[offer].label}\n` : ""}` +
+      (simple ? "" : `Объект: ${objectType}, ${area} м²`) +
       (start ? `\nСтарт: ${start}` : "") +
-      (tour ? `\nХочу экскурсию на объект` : "") +
+      (tour && !simple ? `\nХочу экскурсию на объект` : "") +
+      (comment.trim() ? `\nКомментарий: ${comment.trim()}` : "") +
       `\nИмя: ${name}\nТелефон: ${phone}` +
       (payload.note ? `\n${payload.note}` : "")
   );
@@ -161,6 +166,8 @@ export function LeadForm({ config, onClose, inline = false }: { config: LeadConf
               </div>
             )}
 
+            {!simple && (
+            <>
             <div>
               <p className="text-[14px] font-semibold text-navy mb-2.5">Тип недвижимости</p>
               <div className="flex flex-wrap gap-2">
@@ -188,6 +195,8 @@ export function LeadForm({ config, onClose, inline = false }: { config: LeadConf
                 aria-label="Площадь"
               />
             </div>
+            </>
+            )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Ваше имя" autoComplete="name" aria-label="Имя" className={field} />
@@ -203,8 +212,19 @@ export function LeadForm({ config, onClose, inline = false }: { config: LeadConf
               />
             </div>
             <input value={hp} onChange={(e) => setHp(e.target.value)} tabIndex={-1} autoComplete="off" aria-hidden className="absolute -left-[9999px] h-0 w-0 opacity-0" name="company" />
+            {simple && (
+              <textarea
+                value={comment}
+                onChange={(e) => setComment(e.target.value.slice(0, 1000))}
+                placeholder="Комментарий — например, площадь, тип квартиры или ваш вопрос (необязательно)"
+                aria-label="Комментарий"
+                rows={3}
+                className="w-full rounded-2xl bg-paper border border-transparent focus:border-cognac focus:bg-white px-5 py-4 text-[16px] text-navy outline-none transition-colors resize-none leading-[1.5]"
+              />
+            )}
 
             {/* Дополнительные вопросы — необязательные */}
+            {!simple && (
             <div className="rounded-2xl border border-navy/10">
               <button type="button" onClick={() => setMore((v) => !v)} aria-expanded={more} className="w-full flex items-center justify-between gap-3 px-4 py-3.5 text-left">
                 <span className="text-[14px] font-semibold text-navy">
@@ -243,6 +263,7 @@ export function LeadForm({ config, onClose, inline = false }: { config: LeadConf
                 </div>
               )}
             </div>
+            )}
 
             <label className="flex items-start gap-3 text-[12px] text-navy/65 leading-[1.5] cursor-pointer">
               <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} className="mt-0.5 h-4 w-4 accent-cognac shrink-0" />
@@ -313,8 +334,9 @@ export function LeadForm({ config, onClose, inline = false }: { config: LeadConf
           <div className="rounded-2xl bg-paper p-5 flex flex-col gap-1 text-[14px] text-navy/75">
             <span className="font-semibold text-navy">{OFFERS[offer].label}</span>
             <span>
-              {objectType} · {area} м²{start ? ` · старт: ${start.toLowerCase()}` : ""}
-              {tour ? " · экскурсия на объект" : ""}
+              {simple ? (comment.trim() ? `Комментарий: ${comment.trim()}` : `${name || "Без имени"} · ${phone}`) : `${objectType} · ${area} м²`}
+              {!simple && start ? ` · старт: ${start.toLowerCase()}` : ""}
+              {!simple && tour ? " · экскурсия на объект" : ""}
             </span>
           </div>
           <p className="text-[16px] text-navy/75 leading-[1.5]">Менеджер свяжется с вами, уточнит задачу и согласует замер{tour ? " и экскурсию на объект" : ""}.</p>

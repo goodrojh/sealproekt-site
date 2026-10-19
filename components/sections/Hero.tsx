@@ -183,6 +183,7 @@ export default function Hero() {
         >
           <LeadForm
             inline
+            simple
             config={{
               source: "Первый экран (форма)",
               offer: promo || "calc",
