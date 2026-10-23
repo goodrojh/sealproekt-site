@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { FileText, FileSignature, MessagesSquare, PencilRuler } from "lucide-react";
 import SectionHeader from "@/components/SectionHeader";
@@ -29,34 +29,16 @@ const ITEMS = [
   },
 ];
 
-const PM_PHOTOS = [
-  { src: "/img/pm2.jpg", alt: "Специалист СЕАЛ ПРОЕКТ консультирует клиента" },
-  { src: "/img/pm1.jpg", alt: "Специалист СЕАЛ ПРОЕКТ на стенде компании" },
-];
-
-function PmPhotos() {
-  const [k, setK] = useState(0);
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const t = setInterval(() => setK((v) => (v + 1) % PM_PHOTOS.length), 5000);
-    return () => clearInterval(t);
-  }, []);
+// Правка заказчика: вместо слайдера — одно фото Алексея с клиентом
+function PmPhoto() {
   return (
     <div className="relative h-[260px] md:h-[320px] overflow-hidden bg-ink">
-      {PM_PHOTOS.map((p, i) => (
-        <img
-          key={p.src}
-          {...img(p.src, { sizes: "(max-width: 768px) 100vw, 560px" })}
-          alt={p.alt}
-          className={"absolute inset-0 w-full h-full object-cover object-[50%_22%] transition-opacity duration-1000 " + (i === k ? "opacity-100" : "opacity-0")}
-        />
-      ))}
+      <img
+        {...img("/img/pm2.jpg", { sizes: "(max-width: 768px) 100vw, 560px" })}
+        alt="Специалист СЕАЛ ПРОЕКТ консультирует клиента"
+        className="absolute inset-0 w-full h-full object-cover object-[50%_22%]"
+      />
       <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-navy to-transparent" />
-      <div className="absolute bottom-4 left-6 md:left-8 flex gap-1.5">
-        {PM_PHOTOS.map((p, i) => (
-          <button key={p.src} onClick={() => setK(i)} aria-label={`Фото ${i + 1}`} className={"h-1.5 rounded-full transition-all " + (i === k ? "w-8 bg-white" : "w-3 bg-white/50")} />
-        ))}
-      </div>
     </div>
   );
 }
@@ -77,7 +59,7 @@ export default function Advantages() {
             transition={{ duration: 0.6 }}
             className="rounded-[32px] overflow-hidden bg-navy flex flex-col"
           >
-            <PmPhotos />
+            <PmPhoto />
             <div className="p-6 md:p-8">
               <h3 className="t-h2 text-white">
                 Один ответственный — <span className="text-cognac whitespace-nowrap">весь проект</span>
@@ -107,6 +89,28 @@ export default function Advantages() {
             ))}
           </div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.6 }}
+          className="mt-5 rounded-[32px] overflow-hidden bg-navy grid grid-cols-1 lg:grid-cols-[1.5fr_1fr]"
+        >
+          {/* Подпись «Проектный отдел. Руководитель: Евгений Выговский» уже на фото */}
+          <img
+            {...img("/img/pm3.jpg", { sizes: "(max-width: 1024px) 100vw, 680px" })}
+            alt="Руководитель проектного отдела СЕАЛ ПРОЕКТ Евгений Выговский на объекте"
+            className="w-full h-full object-cover aspect-[1280/853]"
+          />
+          <div className="p-6 md:p-8 lg:p-10 flex flex-col justify-center">
+            <span className="text-[14px] font-semibold uppercase tracking-wide text-cognac">Проектный отдел</span>
+            <h3 className="mt-3 t-h2 text-white">Ответственный за ваш объект</h3>
+            <p className="mt-3 text-[16px] text-white/85 leading-[1.6]">
+              Евгений Выговский, руководитель проектного отдела, контролирует сроки и качество работ на каждом объекте.
+            </p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
