@@ -27,10 +27,13 @@ export default function Cases() {
 
   const ask = (c: CaseItem) =>
     open({
-      source: `Объект ${c.area} м²`,
-      subtitle: `Рассчитаем стоимость ремонта вашей квартиры. Для ориентира: объект ${c.area} м² — ${mln(c.budget)} млн ₽.`,
+      source: c.area ? `Объект ${c.area} м²` : `Объект: ${c.title}`,
+      subtitle:
+        c.area && c.budget
+          ? `Рассчитаем стоимость ремонта вашей квартиры. Для ориентира: объект ${c.area} м² — ${mln(c.budget)} млн ₽.`
+          : "Рассчитаем стоимость ремонта вашей квартиры.",
       image: c.cover,
-      preset: { area: c.area, note: `Понравился объект: ${c.title}, ${c.area} м²` },
+      preset: { area: c.area, note: `Понравился объект: ${c.title}${c.area ? `, ${c.area} м²` : ""}` },
     });
 
   return (
@@ -70,7 +73,8 @@ export default function Cases() {
                   <Images className="h-4 w-4" /> {c.photos.length} фото
                 </span>
                 <span className="absolute left-5 bottom-4 text-[14px] font-medium text-white/90">
-                  {c.type} · {c.year}
+                  {c.type}
+                  {c.year ? ` · ${c.year}` : ""}
                 </span>
               </button>
 
@@ -81,18 +85,34 @@ export default function Cases() {
                     <MapPin className="h-4 w-4" /> Красноярск, {c.location}
                   </p>
                 )}
-                <div className="mt-5 grid grid-cols-3 gap-3 rounded-2xl bg-paper p-4">
-                  <Stat k="Площадь" v={`${c.area} м²`} />
-                  <Stat k="Комнат" v={c.rooms.replace(/\D+/g, "")} />
-                  <Stat k="Срок" v={c.term} />
-                </div>
-                <div className="mt-5 flex items-end justify-between gap-4">
-                  <div>
-                    <span className="block text-[14px] text-navy/60">Бюджет ремонта</span>
-                    <span className="block text-[28px] md:text-[32px] font-extrabold text-navy leading-tight whitespace-nowrap">{fmt(c.budget)} ₽</span>
+                {(() => {
+                  const stats = [
+                    c.area && { k: "Площадь", v: `${c.area} м²` },
+                    c.rooms && { k: "Комнат", v: c.rooms.replace(/\D+/g, "") },
+                    c.term && { k: "Срок", v: c.term },
+                  ].filter(Boolean) as { k: string; v: string }[];
+                  return (
+                    stats.length > 0 && (
+                      <div className="mt-5 grid grid-cols-3 gap-3 rounded-2xl bg-paper p-4">
+                        {stats.map((x) => (
+                          <Stat key={x.k} k={x.k} v={x.v} />
+                        ))}
+                      </div>
+                    )
+                  );
+                })()}
+                {c.budget ? (
+                  <div className="mt-5 flex items-end justify-between gap-4">
+                    <div>
+                      <span className="block text-[14px] text-navy/60">Бюджет ремонта</span>
+                      <span className="block text-[28px] md:text-[32px] font-extrabold text-navy leading-tight whitespace-nowrap">{fmt(c.budget)} ₽</span>
+                    </div>
+                    {perM2(c) > 0 && <span className="mb-1 text-[14px] font-semibold text-cognac whitespace-nowrap">≈ {fmt(perM2(c))} ₽/м²</span>}
                   </div>
-                  <span className="mb-1 text-[14px] font-semibold text-cognac whitespace-nowrap">≈ {fmt(perM2(c))} ₽/м²</span>
-                </div>
+                ) : (
+                  <p className="mt-4 text-[16px] text-navy/70 leading-[1.55]">{c.summary}</p>
+                )}
+                <div className="mt-auto" />
                 <div className="mt-6 pt-5 border-t border-navy/10 flex flex-col sm:flex-row gap-2">
                   <button
                     onClick={() => {
@@ -130,7 +150,7 @@ export default function Cases() {
           <Lightbox
             key={active.id}
             photos={active.photos}
-            title={`${active.title}, ${active.area} м² — ${fmt(active.budget)} ₽`}
+            title={[active.title, active.area && `${active.area} м²`].filter(Boolean).join(", ") + (active.budget ? ` — ${fmt(active.budget)} ₽` : "")}
             onClose={() => setActive(null)}
             footer={
               <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 text-white">
