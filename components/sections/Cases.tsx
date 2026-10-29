@@ -60,7 +60,7 @@ export default function Cases() {
                   setActive(c);
                   track("case_open", { case: c.id });
                 }}
-                className="relative h-[280px] md:h-[340px] overflow-hidden bg-sand text-left"
+                className="relative h-[280px] md:h-[340px] 2xl:h-[420px] overflow-hidden bg-sand text-left"
                 aria-label={`Смотреть фото: ${c.title}`}
               >
                 <img

@@ -10,6 +10,8 @@
   --color-paper: #f6f6f6; /* #BBBCBC 12% на белом */
   --color-sand: #ebebeb; /* #BBBCBC 30% на белом */
   --font-sans: var(--font-montserrat), "Montserrat", system-ui, sans-serif;
+  /* Ширина контента (max-w-6xl): 1152px на ноутбуках, на широких мониторах растёт до 1536px — меньше пустых полей */
+  --container-6xl: clamp(72rem, 86vw, 96rem);
 }
 
 :root {
@@ -249,4 +251,14 @@ input[type="range"].range-brand::-moz-range-thumb {
 .legal a {
   color: #c58b68;
   text-decoration: underline;
+}
+
+/* Широкие мониторы: контейнер шире — заголовки чуть крупнее */
+@media (min-width: 1536px) {
+  .t-h1 {
+    font-size: 56px;
+  }
+  .t-section {
+    font-size: 46px;
+  }
 }
