@@ -7,5 +7,4 @@ MSYS_NO_PATHCONV=1 BASE_PATH="" npm run build
 mv out/_next out/next
 find out -type f \( -name '*.html' -o -name '*.js' -o -name '*.css' -o -name '*.txt' -o -name '*.json' \) -exec sed -i 's#/_next/#/next/#g' {} +
 rm -f sealproekt-hosting.zip
-powershell -NoProfile -Command "Compress-Archive -Path out\* -DestinationPath sealproekt-hosting.zip -Force" 2>/dev/null || (cd out && zip -qr ../sealproekt-hosting.zip .)
-echo "Готово: sealproekt-hosting.zip"
+python scripts/zip-out.py
