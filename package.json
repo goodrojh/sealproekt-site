@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "deploy": "bash deploy.sh"
+    "deploy": "bash deploy.sh",
+    "deploy:domain": "DOMAIN=sealproekt-remont.ru bash deploy.sh"
   },
   "dependencies": {
     "framer-motion": "^14.0.0",
