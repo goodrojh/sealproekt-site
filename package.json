@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "deploy": "bash deploy.sh",
-    "deploy:domain": "DOMAIN=sealproekt-remont.ru bash deploy.sh"
+    "build:hosting": "bash build-hosting.sh"
   },
   "dependencies": {
     "framer-motion": "^14.0.0",
